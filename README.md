@@ -124,27 +124,14 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 <img width="900" src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=JohnCameron94&theme=tokyonight" alt="Contribution Timeline"/>
 
 <!-- Metrics Grid -->
-<table>
-<tr>
-  <td width="50%">
-    <img src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=JohnCameron94&theme=tokyonight" alt="Language Analysis by Commits"/>
-  </td>
-  <td width="50%">
-    <img src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=JohnCameron94&theme=tokyonight&utcOffset=-4" alt="Productive Hours Heat Map"/>
-  </td>
-</tr>
-<tr>
-  <td width="50%">
-    <img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=JohnCameron94&theme=tokyonight" alt="GitHub Metrics"/>
-  </td>
-  <td width="50%">
-    <img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=JohnCameron94&theme=tokyonight" alt="Repository Distribution"/>
-  </td>
-</tr>
-</table>
+<img width="450" src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=JohnCameron94&theme=tokyonight" alt="Language Analysis by Commits"/>
+<img width="450" src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=JohnCameron94&theme=tokyonight&utcOffset=-4" alt="Productive Hours Heat Map"/>
+
+<img width="450" src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=JohnCameron94&theme=tokyonight" alt="GitHub Metrics"/>
+<img width="450" src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=JohnCameron94&theme=tokyonight" alt="Repository Distribution"/>
 
 <!-- Consistency Metrics -->
-<img src="https://streak-stats.demolab.com/?user=JohnCameron94&theme=tokyonight&hide_border=true&date_format=M%20j%5B%2C%20Y%5D&ring=58A6FF&fire=58A6FF&currStreakLabel=58A6FF" alt="Contribution Streak"/>
+<img width="900" src="https://github-readme-streak-stats.herokuapp.com/?user=JohnCameron94&theme=tokyonight&hide_border=true&date_format=M%20j%5B%2C%20Y%5D&ring=58A6FF&fire=58A6FF&currStreakLabel=58A6FF" alt="Contribution Streak"/>
 
 </div>
 
