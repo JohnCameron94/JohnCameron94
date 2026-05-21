@@ -128,7 +128,7 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 </a>
 
 <a href="https://github.com/JohnCameron94">
-  <img src="https://nirzak-streak-stats.vercel.app/?user=JohnCameron94&theme=tokyonight&hide_border=true" alt="GitHub Streak"/>
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=JohnCameron94&theme=tokyo-night&hide_border=true&custom_title=Contribution%20Activity" alt="GitHub Activity Graph"/>
 </a>
 
 </div>
