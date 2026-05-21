@@ -141,8 +141,8 @@ function parseExperience(filepath) {
       }
     }
 
-    // Contributions — regular bullets (max 4)
-    if (section === 'contrib' && !inCodeBlock && contributions.length < 4) {
+    // Contributions — regular bullets (max 7)
+    if (section === 'contrib' && !inCodeBlock && contributions.length < 7) {
       const bullet = line.match(/^-\s+(.+)/);
       if (bullet) {
         const text = bullet[1]
@@ -154,16 +154,16 @@ function parseExperience(filepath) {
       }
     }
 
-    // Contributions — code-block lines (WebMarketers, max 4)
-    if (section === 'contrib' && inCodeBlock && contributions.length < 4) {
+    // Contributions — code-block lines (WebMarketers, max 7)
+    if (section === 'contrib' && inCodeBlock && contributions.length < 7) {
       const text = line
         .replace(/^[\u{1F300}-\u{1FAFF}]|[\u2600-\u27BF]/gu, '')
         .trim();
       if (text) contributions.push(text);
     }
 
-    // Key Achievements table — Impact column (RodeoReady, max 4)
-    if (section === 'achievements' && !inCodeBlock && contributions.length < 4) {
+    // Key Achievements table — Impact column (RodeoReady, max 7)
+    if (section === 'achievements' && !inCodeBlock && contributions.length < 7) {
       const row = line.match(/^\|\s*[^|]+\|\s*([^|]+)\s*\|/);
       if (row) {
         const val = row[1]
