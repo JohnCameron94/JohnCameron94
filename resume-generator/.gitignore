@@ -1,0 +1,15 @@
+node_modules/
+.npm/
+.cache/
+*.log
+
+# Puppeteer downloaded browsers
+.local-chromium/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Don't ignore generated outputs — they get committed back by CI
+# public/public_resume.html
+# public/public_resume.pdf

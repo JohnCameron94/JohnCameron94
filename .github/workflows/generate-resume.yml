@@ -1,0 +1,90 @@
+name: 📄 Generate Resume
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Triggers whenever any .md file in the repo root is pushed to main.
+# Runs the resume generator, then commits the HTML + PDF back to the repo.
+# ─────────────────────────────────────────────────────────────────────────────
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '*.md'                          # Any root-level markdown change
+      - 'resume-generator/scripts/**'   # Generator script changes also re-run
+      - 'resume-generator/package.json'
+
+  # Allow manual trigger from the GitHub Actions UI
+  workflow_dispatch:
+
+permissions:
+  contents: write   # Needed to commit generated files back
+
+jobs:
+  generate:
+    name: Build Resume HTML + PDF
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout ──────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # Full history so the commit shows the right author
+
+      # ── 2. Node.js setup ─────────────────────────────────────────────────────
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: resume-generator/package-lock.json
+
+      # ── 3. Install Chrome system dependencies (required by Puppeteer) ────────
+      - name: Install Chrome dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq \
+            libxss1 libxtst6 libxrandr2 libasound2t64 \
+            libpangocairo-1.0-0 libatk1.0-0 libatk-bridge2.0-0 \
+            libcups2 libdrm2 libgbm1 libgtk-3-0 libnss3 \
+            libx11-xcb1 libxcomposite1 libxcursor1 libxdamage1 libxi6
+
+      # ── 4. Install npm dependencies ──────────────────────────────────────────
+      - name: Install dependencies
+        working-directory: resume-generator
+        run: npm ci
+
+      # ── 5. Run generator ─────────────────────────────────────────────────────
+      - name: Generate resume
+        working-directory: resume-generator
+        run: node scripts/generate-resume.js
+
+      # ── 6. Verify outputs ────────────────────────────────────────────────────
+      - name: Verify output files
+        run: |
+          echo "=== Generated files ==="
+          ls -lh resume-generator/public/
+          echo "✅ HTML: $(wc -c < resume-generator/public/public_resume.html) bytes"
+          echo "✅ PDF:  $(wc -c < resume-generator/public/public_resume.pdf) bytes"
+
+      # ── 7. Commit outputs back to the repo ───────────────────────────────────
+      - name: Commit generated resume
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add resume-generator/public/public_resume.html
+          git add resume-generator/public/public_resume.pdf
+
+          # Only commit if there are actual changes
+          if git diff --cached --quiet; then
+            echo "ℹ️  No changes to resume outputs — skipping commit."
+          else
+            git commit -m "🤖 Auto-update resume [skip ci]
+
+          Triggered by changes to markdown source files.
+          Generated: $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git push
+            echo "🚀 Resume committed and pushed successfully."
+          fi

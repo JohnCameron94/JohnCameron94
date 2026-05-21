@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Johnathon Cameron — Resume</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --accent:  #0ea5e9;
+      --accent2: #6366f1;
+      --dark:    #0f172a;
+      --mid:     #334155;
+      --light:   #64748b;
+      --border:  #e2e8f0;
+      --tag-bg:  #e0f2fe;
+      --tag-fg:  #0369a1;
+    }
+
+    html, body {
+      width: 210mm;
+      height: 297mm;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 10px;
+      line-height: 1.5;
+      color: var(--dark);
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+      color: #fff;
+      padding: 18px 32px 14px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .header::before {
+      content: ''; position: absolute; top: -30px; right: -30px;
+      width: 150px; height: 150px; border-radius: 50%;
+      background: rgba(14,165,233,0.12);
+    }
+    .header-inner { position: relative; z-index: 1; }
+    .name         { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 2px; }
+    .name span    { color: var(--accent); }
+    .title-line   { font-size: 9.5px; font-weight: 500; color: #94a3b8; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 9px; }
+    .header-tags  { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 9px; }
+    .htag {
+      background: rgba(14,165,233,0.18); border: 1px solid rgba(14,165,233,0.35);
+      color: #bae6fd; border-radius: 20px; padding: 1px 8px; font-size: 8.5px; font-weight: 500;
+    }
+    .links { display: flex; gap: 14px; font-size: 9px; color: #7dd3fc; }
+
+    /* Body layout */
+    .body    { display: grid; grid-template-columns: 1fr 200px; flex: 1; overflow: hidden; }
+    .main    { padding: 16px 22px 14px 32px; border-right: 1px solid var(--border); overflow: hidden; }
+    .sidebar { padding: 16px 16px 14px 14px; background: #f8fafc; overflow: hidden; }
+
+    /* Sections */
+    .section { margin-bottom: 14px; }
+    .section-title {
+      font-size: 8.5px; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--accent);
+      border-bottom: 1.5px solid var(--border);
+      padding-bottom: 3px; margin-bottom: 9px;
+    }
+
+    /* Summary */
+    .summary {
+      font-size: 9.5px; color: var(--mid); line-height: 1.6;
+      border-left: 3px solid var(--accent); padding-left: 10px; font-style: italic;
+    }
+
+    /* Jobs */
+    .job           { margin-bottom: 12px; }
+    .job:last-child { margin-bottom: 0; }
+    .job-header    { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1px; }
+    .job-title     { font-size: 11px; font-weight: 700; color: var(--dark); }
+    .job-period    { font-size: 8.5px; color: var(--light); white-space: nowrap; margin-left: 6px; padding-top: 2px; }
+    .job-company   { font-size: 9.5px; font-weight: 600; color: var(--accent2); margin-bottom: 4px; }
+    .job-loc       { font-weight: 400; color: var(--light); }
+    .job-type      { display: inline-block; font-size: 8px; font-weight: 600; padding: 1px 6px; border-radius: 20px; margin-bottom: 5px; }
+    .type-contract { background: #fef3c7; color: #92400e; }
+    .type-startup  { background: #fce7f3; color: #9d174d; }
+    .type-gov      { background: #dcfce7; color: #14532d; }
+    .job-tags      { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 5px; }
+    .tag           { background: var(--tag-bg); color: var(--tag-fg); border-radius: 3px; padding: 1px 5px; font-size: 8.5px; font-weight: 600; }
+    .job ul        { list-style: none; padding: 0; }
+    .job ul li     { font-size: 9.5px; color: var(--mid); padding-left: 11px; position: relative; margin-bottom: 2px; line-height: 1.45; }
+    .job ul li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 8px; top: 1px; }
+    .divider       { border: none; border-top: 1px dashed var(--border); margin: 10px 0; }
+
+    /* Sidebar */
+    .sidebar .section-title { font-size: 7.5px; }
+    .skill-group      { margin-bottom: 8px; }
+    .skill-group-name { font-size: 7.5px; font-weight: 700; color: var(--mid); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .skill-tags       { display: flex; flex-wrap: wrap; gap: 3px; }
+    .skill-tag        { background: var(--border); color: var(--mid); border-radius: 3px; padding: 1px 5px; font-size: 8.5px; font-weight: 500; }
+
+    .cert-item {
+      font-size: 8.5px; color: var(--dark); line-height: 1.3;
+      padding: 3px 0 3px 7px;
+      border-left: 2px solid var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .edu-school  { font-size: 10px; font-weight: 700; color: var(--dark); }
+    .edu-program { font-size: 9px; color: var(--mid); }
+    .edu-meta    { font-size: 8px; color: var(--light); margin-top: 1px; }
+
+    .placeholder-box {
+      background: #fef9c3; border: 1px dashed #f59e0b;
+      border-radius: 5px; padding: 6px 8px;
+      font-size: 8.5px; color: #78350f; margin-bottom: 12px; line-height: 1.6;
+    }
+    .placeholder-box .ph-label {
+      font-size: 7px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 1px; color: #b45309; display: block; margin-bottom: 2px;
+    }
+
+    .fun-fact {
+      background: linear-gradient(135deg, #eff6ff, #faf5ff);
+      border: 1px solid #ddd6fe; border-radius: 6px;
+      padding: 7px 9px; font-size: 9px; color: var(--mid);
+      line-height: 1.45; margin-top: 8px;
+    }
+    .fun-fact strong { color: var(--accent2); }
+
+    /* Footer */
+    .footer {
+      background: #0f172a; color: #64748b;
+      text-align: center; padding: 7px 32px;
+      font-size: 8px; flex-shrink: 0;
+    }
+    .footer span { color: #94a3b8; }
+
+    @media print {
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      @page { margin: 0; size: A4 portrait; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="name">Johnathon <span>Cameron</span></div>
+      <div class="title-line">Full Stack Engineer &nbsp;·&nbsp; Mobile Developer &nbsp;·&nbsp; Cloud Architect</div>
+      <div class="header-tags">
+        <span class="htag">☁️ AWS Certified</span>
+        <span class="htag">📱 iOS · Android · Cross-Platform</span>
+        <span class="htag">🏛️ Gov't Cleared</span>
+        <span class="htag">🍁 Ottawa, ON</span>
+        <span class="htag">5+ Years Experience</span>
+      </div>
+      <div class="links">
+        <span>🔗 linkedin.com/in/johnathoncameron</span>
+        &nbsp;&nbsp;
+        <span>🐙 github.com/JohnCameron94</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="body">
+    <main class="main">
+
+      <div class="section">
+        <div class="section-title">About</div>
+        <p class="summary">I'm a self-sufficient, results-driven software engineer who thrives in environments where the problems are hard, the stakes are high, and the coffee is strong. ☕</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Experience</div>
+        
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title">Mobile Software Developer (Contract)</div>
+            <div class="job-period">Feb 2025 – Present</div>
+          </div>
+          <div class="job-company">WebMarketers × Picis</div>
+          <span class="job-type type-contract">Contract · Healthcare</span>
+          <div class="job-tags"><span class="tag">TypeScript</span><span class="tag">Angular</span><span class="tag">Ionic</span><span class="tag">Capacitor</span></div>
+          <ul><li>Built &amp; refined mobile UI components following clinical UX best practices</li><li>Translated complex anesthesia workflows into clean, intuitive mobile screens</li><li>Optimized component rendering for smooth performance on clinical-grade devices</li><li>Implemented responsive, reactive data flows using Angular's powerful toolkit</li></ul>
+        </div><hr class="divider"/>
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title">Software Engineer (Full Stack)</div>
+            <div class="job-period">February 2023 – February 2025</div>
+          </div>
+          <div class="job-company">RodeoReady Ltd. <span class="job-loc">· Calgary, AB</span></div>
+          <span class="job-type type-startup">Startup</span>
+          <div class="job-tags"><span class="tag">Kotlin</span><span class="tag">Objective-C</span><span class="tag">Swift</span><span class="tag">Jetpack Compose</span><span class="tag">CoreData</span><span class="tag">Room</span><span class="tag">React</span><span class="tag">MUI</span></div>
+          <ul><li>End-to-end mobile presence for the RodeoReady platform</li><li>Complete web platform for rodeo event management</li><li>Cost-effective, auto-scaling cloud infrastructure</li><li>Live data updates for time-sensitive rodeo events</li></ul>
+        </div><hr class="divider"/>
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title">Software Engineer / Technical Lead</div>
+            <div class="job-period">October 2018 – February 2023</div>
+          </div>
+          <div class="job-company">Canada Border Services Agency (CBSA) <span class="job-loc">· Ottawa, ON</span></div>
+          <span class="job-type type-gov">Government</span>
+          <div class="job-tags"><span class="tag">Java 8</span><span class="tag">JEE</span><span class="tag">Typescript</span><span class="tag">Javascript</span><span class="tag">Python</span><span class="tag">Spring Boot</span><span class="tag">Hibernate</span><span class="tag">JSF</span></div>
+          <ul><li>️ Maintained 8 major Java enterprise applications simultaneously across Spring Boot, Hibernate, JEE, and Pub/Sub architectures.</li><li>Led multiple major release cycles with full impact analysis, coordinated across cross-functional teams.</li><li>️ Implemented full CI/CD pipelines using AWS CodePipeline, CodeBuild, and CodeDeploy.</li><li>️ Deployed cloud infrastructure using AWS CDK across multiple environments.</li></ul>
+        </div>
+      </div>
+
+    </main>
+
+    <aside class="sidebar">
+
+      <div class="placeholder-box">
+        <span class="ph-label">📋 Fill before sharing</span>
+        📞 [Phone Number]<br/>
+        📍 [Address / City]
+      </div>
+
+      <div class="section">
+        <div class="section-title">Skills</div>
+        
+          <div class="skill-group">
+            <div class="skill-group-name">Languages</div>
+            <div class="skill-tags"><span class="skill-tag">TypeScript</span><span class="skill-tag">JavaScript</span><span class="skill-tag">Java</span><span class="skill-tag">Kotlin</span><span class="skill-tag">Python</span><span class="skill-tag">Swift</span><span class="skill-tag">Obj-C</span><span class="skill-tag">C</span></div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-name">Mobile</div>
+            <div class="skill-tags"><span class="skill-tag">Ionic + Angular</span><span class="skill-tag">Capacitor</span><span class="skill-tag">Jetpack Compose</span><span class="skill-tag">CoreData/Room</span><span class="skill-tag">APNS/FCM</span></div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-name">Frontend / Backend</div>
+            <div class="skill-tags"><span class="skill-tag">React</span><span class="skill-tag">Angular</span><span class="skill-tag">Node.js</span><span class="skill-tag">Spring Boot</span><span class="skill-tag">GraphQL</span><span class="skill-tag">Express</span></div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-name">Cloud &amp; Databases</div>
+            <div class="skill-tags"><span class="skill-tag">AWS Lambda</span><span class="skill-tag">AWS CDK</span><span class="skill-tag">AppSync</span><span class="skill-tag">DynamoDB</span><span class="skill-tag">SQS/SNS</span><span class="skill-tag">MySQL</span></div>
+          </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Certifications</div>
+        <div class="cert-item">☁&nbsp;AWS Certified Cloud Practitioner</div><div class="cert-item">🎓&nbsp;Computer Engineering &amp; Technology</div><div class="cert-item">🔐&nbsp;AWS Security Essentials</div><div class="cert-item">🛠&nbsp;AWS CDK Primer</div><div class="cert-item">🏗&nbsp;Architecting on AWS</div><div class="cert-item">💻&nbsp;Developing on AWS</div><div class="cert-item">🔒&nbsp;Security Engineering on AWS</div><div class="cert-item">⚡&nbsp;Next.js</div><div class="cert-item">📱&nbsp;Jetpack Compose</div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Education</div>
+        
+          <div class="edu-school">Algonquin College</div>
+          <div class="edu-program">Advanced Diploma — Computer Engineering and Technology (Computer Science)</div>
+          <div class="edu-meta">September 2017 – December 2020 | **Honors | GPA: 3.77 / 4.00**</div>
+      </div>
+
+      <div class="fun-fact">
+        <strong>Fun fact:</strong> My code secures Canada's borders, wrangles rodeo cowboys, and helps surgeons in the OR. 🍁🤠🏥
+      </div>
+
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <span>linkedin.com/in/johnathoncameron</span> &nbsp;·&nbsp; <span>github.com/JohnCameron94</span>
+  </footer>
+
+</div>
+</body>
+</html>

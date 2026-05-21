@@ -1,0 +1,19 @@
+{
+  "name": "johncameron94-resume-generator",
+  "version": "1.0.0",
+  "description": "Auto-generates a styled HTML + PDF resume from EXPERIENCE_*.md files on every commit.",
+  "private": true,
+  "scripts": {
+    "generate": "node scripts/generate-resume.js",
+    "generate:watch": "nodemon --watch '../*.md' --ext md --exec 'node scripts/generate-resume.js'"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "puppeteer": "^22.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
