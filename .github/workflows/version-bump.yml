@@ -68,6 +68,9 @@ jobs:
       - name: Commit and push changes
         if: steps.check.outputs.skip != 'true'
         run: |
+          # Pull latest changes first to avoid conflicts
+          git pull --rebase origin ${{ github.ref_name }} || true
+          
           git add resume-generator/package.json
           
           # Check if there are changes to commit
@@ -78,9 +81,6 @@ jobs:
           
           # Commit changes
           git commit -m "chore: bump version to ${{ steps.version.outputs.new_version }} [skip ci]"
-          
-          # Pull with rebase in case remote has new changes
-          git pull --rebase origin ${{ github.ref_name }}
           
           # Push changes with retry logic
           MAX_RETRIES=3
@@ -96,7 +96,7 @@ jobs:
               
               if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
                 echo "Pulling latest changes and retrying..."
-                git pull --rebase origin ${{ github.ref_name }}
+                git pull --rebase origin ${{ github.ref_name }} || true
                 sleep 2
               fi
             fi
