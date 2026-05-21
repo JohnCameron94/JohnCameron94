@@ -79,5 +79,28 @@ jobs:
           # Commit changes
           git commit -m "chore: bump version to ${{ steps.version.outputs.new_version }} [skip ci]"
           
-          # Push changes
-          git push origin ${{ github.ref_name }}
+          # Pull with rebase in case remote has new changes
+          git pull --rebase origin ${{ github.ref_name }}
+          
+          # Push changes with retry logic
+          MAX_RETRIES=3
+          RETRY_COUNT=0
+          
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            if git push origin ${{ github.ref_name }}; then
+              echo "Successfully pushed changes"
+              exit 0
+            else
+              RETRY_COUNT=$((RETRY_COUNT + 1))
+              echo "Push failed, attempt $RETRY_COUNT of $MAX_RETRIES"
+              
+              if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+                echo "Pulling latest changes and retrying..."
+                git pull --rebase origin ${{ github.ref_name }}
+                sleep 2
+              fi
+            fi
+          done
+          
+          echo "Failed to push after $MAX_RETRIES attempts"
+          exit 1
