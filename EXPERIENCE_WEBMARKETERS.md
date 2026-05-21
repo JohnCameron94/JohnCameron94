@@ -2,7 +2,7 @@
 
 # 🏥 WebMarketers × Picis — Contract Engagement
 
-### Mobile Software Developer (Contract) | Feb 2025 – Present
+### Mobile Software Developer (Contract) | Feb 2026 – Present
 
 [![WebMarketers](https://img.shields.io/badge/WebMarketers-Ottawa,_ON-FF6B35?style=for-the-badge&logoColor=white)](https://webmarketers.ca)
 [![Picis](https://img.shields.io/badge/Client-Picis_Clinical_Solutions-00A9CE?style=for-the-badge&logoColor=white)](https://picis.com)

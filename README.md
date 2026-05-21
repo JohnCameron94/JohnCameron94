@@ -48,11 +48,14 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 
 | Role | Company | Period | Type |
 |------|---------|--------|------|
-| 🏥 Mobile Developer (Contract) | [WebMarketers → Picis Clinical Solutions](EXPERIENCE_WEBMARKETERS.md) | Feb 2025 – Present | Contract / Healthcare |
+| 🏥 Mobile Developer (Contract) | [WebMarketers → Picis Clinical Solutions](EXPERIENCE_WEBMARKETERS.md) | Feb 2026 – Present | Contract / Healthcare |
+| 🚀 Freelance IT Consultant | [Independent IT Consulting](EXPERIENCE_FREELANCE.md) | May 2025 – Present | Freelance / IT Infrastructure |
 | 🤠 Software Engineer (Full Stack) | [RodeoReady Ltd.](EXPERIENCE_RODEOREADY.md) | Feb 2023 – Feb 2025 | Private / Startup |
 | 🍁 Software Engineer / Technical Lead | [Canada Border Services Agency](EXPERIENCE_CBSA.md) | Oct 2018 – Feb 2023 | Government / Public Sector |
 
 > 📄 Click the links above to dive deep into each role, the projects I worked on, and the impact I made.
+>
+> 🤖 **[How AI Changed My Work](HOW_AI_CHANGED_MY_WORK.md)** — Discover how I leverage AI tools, agents, and MCP servers to 10x my productivity
 
 ---
 
@@ -162,8 +165,9 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 2021 ──── Promoted to Technical Lead @ CBSA
 2022 ──── Achieved AWS Cloud Practitioner Certification ☁️
 2023 ──── Joined RodeoReady as Full Stack Engineer 🤠
-2025 ──── Contract role via WebMarketers → Picis Anesthesia Lite mobile app 🏥
-2025 ──── Continuing to build, ship, and grow 🚀
+2025 ──── Left RodeoReady (February), started freelance IT consulting (May) 🚀
+2026 ──── Contract role via WebMarketers → Picis Anesthesia Lite mobile app 🏥
+2026 ──── Continuing to balance software development & freelance IT consulting 🚀
 ```
 
 ---
