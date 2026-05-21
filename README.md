@@ -116,20 +116,35 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 
 </div>
 
----
-
-## 📊 GitHub Stats
+## 📊 GitHub Analytics
 
 <div align="center">
 
-<a href="https://github.com/JohnCameron94">
-  <img height="180em" src="https://github-readme-stats-sigma-five.vercel.app/api?username=JohnCameron94&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&include_all_commits=true" alt="Johnathon's GitHub Stats"/>
-  <img height="180em" src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=JohnCameron94&layout=compact&theme=tokyonight&hide_border=true&langs_count=6&hide=Jupyter%20Notebook,HTML,CSS" alt="Top Languages"/>
-</a>
+<!-- Contribution Timeline & Heat Map -->
+<img width="900" src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=JohnCameron94&theme=tokyonight" alt="Contribution Timeline"/>
 
-<a href="https://github.com/JohnCameron94">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=JohnCameron94&theme=tokyo-night&hide_border=true&custom_title=Contribution%20Activity" alt="GitHub Activity Graph"/>
-</a>
+<!-- Metrics Grid -->
+<table>
+<tr>
+  <td width="50%">
+    <img src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=JohnCameron94&theme=tokyonight" alt="Language Analysis by Commits"/>
+  </td>
+  <td width="50%">
+    <img src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=JohnCameron94&theme=tokyonight&utcOffset=-4" alt="Productive Hours Heat Map"/>
+  </td>
+</tr>
+<tr>
+  <td width="50%">
+    <img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=JohnCameron94&theme=tokyonight" alt="GitHub Metrics"/>
+  </td>
+  <td width="50%">
+    <img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=JohnCameron94&theme=tokyonight" alt="Repository Distribution"/>
+  </td>
+</tr>
+</table>
+
+<!-- Consistency Metrics -->
+<img src="https://streak-stats.demolab.com/?user=JohnCameron94&theme=tokyonight&hide_border=true&date_format=M%20j%5B%2C%20Y%5D&ring=58A6FF&fire=58A6FF&currStreakLabel=58A6FF" alt="Contribution Streak"/>
 
 </div>
 

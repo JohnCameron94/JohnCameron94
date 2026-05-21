@@ -1,0 +1,56 @@
+name: Auto Version Bump
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths-ignore:
+      - '.github/workflows/**'
+      - 'resume-generator/package.json'
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+      - name: Bump minor version
+        id: version
+        run: |
+          cd resume-generator
+          
+          # Get current version
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "Current version: $CURRENT_VERSION"
+          
+          # Bump minor version (e.g., 1.0.0 -> 1.1.0)
+          npm version minor --no-git-tag-version
+          
+          # Get new version
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          echo "New version: $NEW_VERSION"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        run: |
+          git add resume-generator/package.json
+          git commit -m "chore: bump version to ${{ steps.version.outputs.new_version }} [skip ci]" || exit 0
+          git push origin ${{ github.ref_name }}
