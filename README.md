@@ -122,9 +122,10 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 
 <div align="center">
 
-[![Johnathon's GitHub Stats](https://github-readme-stats.vercel.app/api?username=JohnCameron94&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&include_all_commits=true)](https://github.com/JohnCameron94)
-
-[![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=JohnCameron94&layout=compact&theme=tokyonight&hide_border=true&langs_count=8)](https://github.com/JohnCameron94)
+<a href="https://github.com/JohnCameron94">
+  <img height="180em" src="https://github-readme-stats-sigma-five.vercel.app/api?username=JohnCameron94&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&include_all_commits=true" alt="Johnathon's GitHub Stats"/>
+  <img height="180em" src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=JohnCameron94&layout=compact&theme=tokyonight&hide_border=true&langs_count=8" alt="Top Languages"/>
+</a>
 
 [![GitHub Streak](https://streak-stats.demolab.com/?user=JohnCameron94&theme=tokyonight&hide_border=true)](https://github.com/JohnCameron94)
 
