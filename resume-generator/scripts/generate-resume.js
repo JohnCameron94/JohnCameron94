@@ -5,12 +5,14 @@
  * generate-resume.js
  * ─────────────────────────────────────────────────────────
  * Reads all EXPERIENCE_*.md files + README.md from the repo
- * root, builds a styled single-page HTML resume, and renders
- * it to PDF using Puppeteer.
+ * root, builds TWO resume versions and renders to PDF using
+ * Puppeteer.
  *
  * Outputs:
- *   resume-generator/public/public_resume.html
- *   resume-generator/public/public_resume.pdf
+ *   resume-generator/public/public_resume.html (styled)
+ *   resume-generator/public/public_resume.pdf (styled)
+ *   resume-generator/public/ats_resume.html (ATS-friendly)
+ *   resume-generator/public/ats_resume.pdf (ATS-friendly)
  *
  * Usage:
  *   cd resume-generator && node scripts/generate-resume.js
@@ -506,6 +508,252 @@ function buildHTML({ jobs, readme }) {
 </html>`;
 }
 
+function buildATSHTML({ jobs, readme }) {
+  // Experience sections - plain text with clear structure
+  const expParts = jobs.map((job, idx) => {
+    const bullets = job.contributions.map(b => `          <li>${esc(b.replace(/\*\*(.+?)\*\*/g, '$1'))}</li>`).join('\n');
+    return `
+        <div class="job">
+          <div class="job-header">
+            <h3>${esc(job.role)}</h3>
+            <span class="period">${esc(job.period)}</span>
+          </div>
+          <div class="company">${esc(job.company)}${job.location ? ` | ${esc(job.location)}` : ''}</div>
+          <div class="technologies"><strong>Technologies:</strong> ${esc(job.techTags.join(', '))}</div>
+          <ul class="contributions">
+${bullets}
+          </ul>
+        </div>`;
+  }).join('\n');
+
+  // Skills - grouped plainly
+  const SKILLS = [
+    { group: 'Languages', tags: ['TypeScript', 'JavaScript', 'Java', 'Kotlin', 'Python', 'Swift', 'Objective-C', 'C'] },
+    { group: 'Mobile Development', tags: ['Ionic + Angular', 'Capacitor', 'Jetpack Compose', 'CoreData', 'Room', 'APNS', 'FCM'] },
+    { group: 'Frontend & Backend', tags: ['React', 'Angular', 'Node.js', 'Spring Boot', 'GraphQL', 'Express', 'Flask'] },
+    { group: 'Cloud & Infrastructure', tags: ['AWS Lambda', 'AWS CDK', 'AppSync', 'DynamoDB', 'SQS', 'SNS', 'Kinesis', 'Jenkins'] },
+    { group: 'Databases', tags: ['MySQL', 'PostgreSQL', 'MongoDB', 'DynamoDB', 'Amazon RDS'] },
+  ];
+
+  const skillsHTML = SKILLS.map(s => `
+        <div class="skill-group">
+          <strong>${esc(s.group)}:</strong> ${esc(s.tags.join(', '))}
+        </div>`).join('');
+
+  // Certifications - simple list
+  const certsHTML = readme.certs.map(c => `          <li>${esc(c.name)}</li>`).join('\n');
+
+  // Education
+  const edu = readme.education;
+  const eduHTML = edu ? `
+        <div class="education">
+          <strong>${esc(edu.school)}</strong><br/>
+          ${esc(edu.program)}<br/>
+          <em>${esc(edu.meta)}</em>
+        </div>` : '';
+
+  return /* html */`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Johnathon Cameron - Resume</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11pt;
+      line-height: 1.5;
+      color: #000;
+      background: #fff;
+      padding: 0.5in 0.75in;
+      max-width: 8.5in;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 24pt;
+      font-weight: bold;
+      margin-bottom: 4pt;
+      color: #000;
+    }
+
+    h2 {
+      font-size: 12pt;
+      font-weight: bold;
+      margin-top: 16pt;
+      margin-bottom: 8pt;
+      border-bottom: 2px solid #000;
+      padding-bottom: 2pt;
+      color: #000;
+    }
+
+    h3 {
+      font-size: 11pt;
+      font-weight: bold;
+      margin: 0;
+      color: #000;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 16pt;
+      border-bottom: 3px solid #000;
+      padding-bottom: 12pt;
+    }
+
+    .header .title {
+      font-size: 12pt;
+      margin-bottom: 6pt;
+      font-weight: normal;
+    }
+
+    .header .contact {
+      font-size: 10pt;
+      margin-top: 6pt;
+    }
+
+    .section {
+      margin-bottom: 14pt;
+    }
+
+    .summary {
+      font-size: 10.5pt;
+      line-height: 1.6;
+      margin-bottom: 8pt;
+      text-align: justify;
+    }
+
+    .job {
+      margin-bottom: 14pt;
+      page-break-inside: avoid;
+    }
+
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2pt;
+    }
+
+    .job .company {
+      font-size: 10.5pt;
+      font-weight: bold;
+      margin-bottom: 4pt;
+      color: #000;
+    }
+
+    .job .period {
+      font-size: 10pt;
+      font-weight: normal;
+      white-space: nowrap;
+    }
+
+    .job .technologies {
+      font-size: 10pt;
+      margin-bottom: 6pt;
+      color: #333;
+    }
+
+    .job ul.contributions {
+      list-style-type: disc;
+      margin-left: 20pt;
+      margin-top: 4pt;
+    }
+
+    .job ul.contributions li {
+      margin-bottom: 3pt;
+      font-size: 10.5pt;
+    }
+
+    .skills-grid {
+      display: block;
+    }
+
+    .skill-group {
+      margin-bottom: 6pt;
+      font-size: 10pt;
+      line-height: 1.6;
+    }
+
+    .certifications ul {
+      list-style-type: disc;
+      margin-left: 20pt;
+    }
+
+    .certifications ul li {
+      margin-bottom: 3pt;
+      font-size: 10pt;
+    }
+
+    .education {
+      font-size: 10pt;
+      line-height: 1.6;
+    }
+
+    .placeholder {
+      background: #f0f0f0;
+      border: 1px dashed #999;
+      padding: 8pt;
+      font-size: 9pt;
+      color: #666;
+      margin-bottom: 12pt;
+      text-align: center;
+    }
+
+    @media print {
+      body { padding: 0; }
+      @page { margin: 0.5in 0.75in; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>JOHNATHON CAMERON</h1>
+    <div class="title">Full Stack Software Engineer | Mobile Developer | Cloud Architect</div>
+    <div class="contact">
+      LinkedIn: linkedin.com/in/johnathoncameron | GitHub: github.com/JohnCameron94
+    </div>
+    <div class="placeholder">
+      [PHONE NUMBER] | [EMAIL ADDRESS] | [ADDRESS/CITY]
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>PROFESSIONAL SUMMARY</h2>
+    <p class="summary">${esc(readme.summary || 'Results-driven software engineer with 5+ years of experience across government, private sector startups, and healthcare contracting. Specialized in full-stack development, mobile applications, and cloud architecture. Proven track record of delivering mission-critical systems for Canada Border Services Agency, building scalable startup platforms, and developing healthcare mobile solutions.')}</p>
+  </div>
+
+  <div class="section">
+    <h2>PROFESSIONAL EXPERIENCE</h2>
+    ${expParts}
+  </div>
+
+  <div class="section">
+    <h2>TECHNICAL SKILLS</h2>
+    <div class="skills-grid">
+      ${skillsHTML}
+    </div>
+  </div>
+
+  <div class="section certifications">
+    <h2>CERTIFICATIONS</h2>
+    <ul>
+${certsHTML}
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>EDUCATION</h2>
+    ${eduHTML}
+  </div>
+
+</body>
+</html>`;
+}
+
 // ── Main ───────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -535,15 +783,29 @@ async function main() {
     : { summary: '', certs: [], education: null };
   console.log(`  ✅ Parsed README.md  →  ${readme.certs.length} cert(s), education: ${readme.education ? 'yes' : 'no'}`);
 
-  console.log('\n🎨  Building HTML resume...');
-  const html = buildHTML({ jobs, readme });
-
   if (!fs.existsSync(PUBLIC_DIR)) fs.mkdirSync(PUBLIC_DIR, { recursive: true });
 
-  const htmlOut = path.join(PUBLIC_DIR, 'public_resume.html');
-  fs.writeFileSync(htmlOut, html, 'utf8');
-  console.log(`  📄 HTML  →  ${path.relative(process.cwd(), htmlOut)}`);
+  // ═══════════════════════════════════════════════════════════════════════
+  // 1. Generate Styled Resume
+  // ═══════════════════════════════════════════════════════════════════════
+  console.log('\n🎨  Building STYLED HTML resume...');
+  const styledHtml = buildHTML({ jobs, readme });
+  const styledHtmlOut = path.join(PUBLIC_DIR, 'public_resume.html');
+  fs.writeFileSync(styledHtmlOut, styledHtml, 'utf8');
+  console.log(`  📄 Styled HTML  →  ${path.relative(process.cwd(), styledHtmlOut)}`);
 
+  // ═══════════════════════════════════════════════════════════════════════
+  // 2. Generate ATS-Friendly Resume
+  // ═══════════════════════════════════════════════════════════════════════
+  console.log('\n📋  Building ATS-FRIENDLY HTML resume...');
+  const atsHtml = buildATSHTML({ jobs, readme });
+  const atsHtmlOut = path.join(PUBLIC_DIR, 'ats_resume.html');
+  fs.writeFileSync(atsHtmlOut, atsHtml, 'utf8');
+  console.log(`  📄 ATS HTML  →  ${path.relative(process.cwd(), atsHtmlOut)}`);
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // 3. Generate PDFs
+  // ═══════════════════════════════════════════════════════════════════════
   try {
     const puppeteer = require('puppeteer');
     console.log('\n🖨️   Launching headless browser for PDF generation...');
@@ -553,25 +815,41 @@ async function main() {
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
     });
 
-    const page = await browser.newPage();
-    await page.setContent(html, { waitUntil: 'networkidle0' });
-
-    const pdfOut = path.join(PUBLIC_DIR, 'public_resume.pdf');
-    await page.pdf({
-      path:             pdfOut,
+    // Generate Styled PDF
+    console.log('  🎨 Generating styled PDF...');
+    const styledPage = await browser.newPage();
+    await styledPage.setContent(styledHtml, { waitUntil: 'networkidle0' });
+    const styledPdfOut = path.join(PUBLIC_DIR, 'public_resume.pdf');
+    await styledPage.pdf({
+      path:             styledPdfOut,
       format:           'A4',
       printBackground:  true,
       preferCSSPageSize: true,
       margin:           { top: '0', right: '0', bottom: '0', left: '0' },
     });
+    console.log(`  📑 Styled PDF  →  ${path.relative(process.cwd(), styledPdfOut)}`);
+
+    // Generate ATS PDF
+    console.log('  📋 Generating ATS PDF...');
+    const atsPage = await browser.newPage();
+    await atsPage.setContent(atsHtml, { waitUntil: 'networkidle0' });
+    const atsPdfOut = path.join(PUBLIC_DIR, 'ats_resume.pdf');
+    await atsPage.pdf({
+      path:             atsPdfOut,
+      format:           'Letter',
+      printBackground:  false,
+      margin:           { top: '0.5in', right: '0.75in', bottom: '0.5in', left: '0.75in' },
+    });
+    console.log(`  📑 ATS PDF  →  ${path.relative(process.cwd(), atsPdfOut)}`);
 
     await browser.close();
-    console.log(`  📑 PDF  →  ${path.relative(process.cwd(), pdfOut)}`);
   } catch (err) {
     console.warn('\n⚠️   PDF generation skipped:', err.message);
   }
 
-  console.log('\n🚀  Done!\n');
+  console.log('\n✨  Successfully generated TWO resume versions:');
+  console.log('   🎨 Styled version (public_resume.html + .pdf) - for portfolio/website');
+  console.log('   📋 ATS version (ats_resume.html + .pdf) - for job applications\n');
 }
 
 main().catch(err => { console.error('\n❌  Fatal:', err); process.exit(1); });
