@@ -121,19 +121,19 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 <div align="center">
 
 <!-- Main Contribution Graph -->
-<img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=JohnCameron94&theme=tokyonight" alt="Contribution Activity"/>
+<img width="820" src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=JohnCameron94&theme=tokyonight" alt="Contribution Activity"/>
 
 <br/>
 
 <!-- Stats Row -->
-<img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=JohnCameron94&theme=tokyonight" alt="GitHub Stats"/>
-<img src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=JohnCameron94&theme=tokyonight&utcOffset=-4" alt="Productive Hours"/>
+<img width="410" src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=JohnCameron94&theme=tokyonight" alt="GitHub Stats"/>
+<img width="410" src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=JohnCameron94&theme=tokyonight&utcOffset=-4" alt="Productive Hours"/>
 
 <br/>
 
 <!-- Languages Row -->
-<img src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=JohnCameron94&theme=tokyonight" alt="Top Languages by Commit"/>
-<img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=JohnCameron94&theme=tokyonight" alt="Top Languages by Repo"/>
+<img width="410" src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=JohnCameron94&theme=tokyonight" alt="Top Languages by Commit"/>
+<img width="410" src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=JohnCameron94&theme=tokyonight" alt="Top Languages by Repo"/>
 
 </div>
 
