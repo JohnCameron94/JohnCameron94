@@ -116,23 +116,24 @@
     .edu-program { font-size: 9px; color: var(--mid); }
     .edu-meta    { font-size: 8px; color: var(--light); margin-top: 1px; }
 
+    .placeholder-box, .contact-box {
+      border-radius: 5px; padding: 6px 8px;
+      font-size: 8.5px; margin-bottom: 12px; line-height: 1.6;
+    }
     .placeholder-box {
       background: #fef9c3; border: 1px dashed #f59e0b;
-      border-radius: 5px; padding: 6px 8px;
-      font-size: 8.5px; color: #78350f; margin-bottom: 12px; line-height: 1.6;
+      color: #78350f;
     }
     .placeholder-box .ph-label {
       font-size: 7px; font-weight: 800; text-transform: uppercase;
       letter-spacing: 1px; color: #b45309; display: block; margin-bottom: 2px;
     }
-
-    .fun-fact {
-      background: linear-gradient(135deg, #eff6ff, #faf5ff);
-      border: 1px solid #ddd6fe; border-radius: 6px;
-      padding: 7px 9px; font-size: 9px; color: var(--mid);
-      line-height: 1.45; margin-top: 8px;
+    .contact-box {
+      background: #f0f9ff; border: 1px solid #bae6fd;
+      color: var(--mid);
     }
-    .fun-fact strong { color: var(--accent2); }
+    .contact-box .section-title { margin-bottom: 6px; }
+    .contact-line { margin-bottom: 2px; }
 
     /* Footer */
     .footer {
@@ -217,9 +218,9 @@
             <div class="job-period">May 2025 – Present</div>
           </div>
           <div class="job-company">Independent IT Consultant</div>
-          <span class="job-type type-contract">Contract</span>
-          <div class="job-tags"></div>
-          <ul></ul>
+          <span class="job-type type-contract">Consulting</span>
+          <div class="job-tags"><span class="tag">Microsoft 365</span><span class="tag">Google Workspace</span><span class="tag">Microsoft Azure</span><span class="tag">Microsoft Exchange Online</span><span class="tag">Google Workspace Gmail</span><span class="tag">SMTP relay configuration</span><span class="tag">DNS</span><span class="tag">Microsoft Intune</span></div>
+          <ul><li>Successfully migrated 3 businesses to cloud platforms (2 to Microsoft 365, 1 to Google Workspace)</li><li>Configured and maintained secure cloud email systems with 99.9% uptime</li><li>Implemented Intune MDM for device management across multiple client organizations</li><li>Strengthened email security posture (SPF/DKIM/DMARC compliance across all deployments)</li><li>Managed Wix, WordPress, and DNS hosting setups for client web presence</li><li>Deployed secure network infrastructure with properly segmented public/private networks</li><li>Optimized dual-band WiFi configurations for performance and device compatibility</li></ul>
         </div>
       </div>
 
@@ -227,9 +228,11 @@
 
     <aside class="sidebar">
 
+      
       <div class="placeholder-box">
         <span class="ph-label">📋 Fill before sharing</span>
         📞 [Phone Number]<br/>
+        ✉️ [Email Address]<br/>
         📍 [Address / City]
       </div>
 
@@ -264,11 +267,7 @@
         
           <div class="edu-school">Algonquin College</div>
           <div class="edu-program">Advanced Diploma — Computer Engineering and Technology (Computer Science)</div>
-          <div class="edu-meta">September 2017 – December 2020 | **Honors | GPA: 3.77 / 4.00**</div>
-      </div>
-
-      <div class="fun-fact">
-        <strong>Fun fact:</strong> My code secures Canada's borders, wrangles rodeo cowboys, and helps surgeons in the OR. 🍁🤠🏥
+          <div class="edu-meta">September 2017 – December 2020 | Honors | GPA: 3.77 / 4.00</div>
       </div>
 
     </aside>

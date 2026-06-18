@@ -8,11 +8,14 @@
  * root, builds TWO resume versions and renders to PDF using
  * Puppeteer.
  *
- * Outputs:
- *   resume-generator/public/public_resume.html (styled)
- *   resume-generator/public/public_resume.pdf (styled)
- *   resume-generator/public/ats_resume.html (ATS-friendly)
- *   resume-generator/public/ats_resume.pdf (ATS-friendly)
+ * Outputs (placeholder contact — safe to commit via CI):
+ *   resume-generator/public/public_resume.html
+ *   resume-generator/public/public_resume.pdf
+ *   resume-generator/public/ats_resume.html
+ *   resume-generator/public/ats_resume.pdf
+ *
+ * Outputs with real contact (gitignored — copy contact.local.json.example):
+ *   resume-generator/public/local/*
  *
  * Usage:
  *   cd resume-generator && node scripts/generate-resume.js
@@ -23,8 +26,24 @@ const fs   = require('fs');
 const path = require('path');
 
 // ── Paths ──────────────────────────────────────────────────────────────────────
-const REPO_ROOT  = path.resolve(__dirname, '..', '..');
-const PUBLIC_DIR = path.resolve(__dirname, '..', 'public');
+const REPO_ROOT    = path.resolve(__dirname, '..', '..');
+const PUBLIC_DIR   = path.resolve(__dirname, '..', 'public');
+const CONTACT_FILE = path.resolve(__dirname, '..', 'contact.local.json');
+
+function loadContact() {
+  if (!fs.existsSync(CONTACT_FILE)) return null;
+  try {
+    const data = JSON.parse(fs.readFileSync(CONTACT_FILE, 'utf8'));
+    if (!data.phone || !data.email || !data.address) {
+      console.warn('  ⚠️  contact.local.json is missing phone, email, or address — using placeholders.');
+      return null;
+    }
+    return data;
+  } catch (err) {
+    console.warn('  ⚠️  Could not read contact.local.json:', err.message);
+    return null;
+  }
+}
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
@@ -179,6 +198,21 @@ function parseExperience(filepath) {
         }
       }
     }
+
+    // Key Achievements — code-block lines (Freelance, max 7)
+    if (section === 'achievements' && inCodeBlock && contributions.length < 7) {
+      const text = stripEmoji(line);
+      if (text) contributions.push(text);
+    }
+
+    // Tech stack — YAML / list code blocks (Freelance)
+    if (section === 'tech' && inCodeBlock) {
+      const item = line.match(/^\s*-\s+([^:(]+)/);
+      if (item) {
+        const tech = item[1].trim();
+        if (tech && tech.length > 1 && !techTags.includes(tech)) techTags.push(tech);
+      }
+    }
   }
 
   return { company, role, location, period, techTags: techTags.slice(0, 8), contributions };
@@ -218,7 +252,13 @@ function parseReadme(filepath) {
   // Education
   let education = null;
   const em = raw.match(/\*\*Algonquin College\*\*[^\n]*\n>\s*\*\*([^*]+)\*\*\s*\n>\s*([^\n]+)/);
-  if (em) education = { school: 'Algonquin College', program: em[1].trim(), meta: em[2].trim() };
+  if (em) {
+    education = {
+      school:  'Algonquin College',
+      program: em[1].trim(),
+      meta:    em[2].trim().replace(/\*\*/g, ''),
+    };
+  }
 
   return { summary, certs, education };
 }
@@ -228,21 +268,50 @@ function parseReadme(filepath) {
 const TYPE_BADGE = {
   WEBMARKETERS: { label: 'Contract · Healthcare', cls: 'type-contract' },
   RODEOREADY:   { label: 'Startup',               cls: 'type-startup'  },
-  CBSA:         { label: 'Government',             cls: 'type-gov'      },
+  CBSA:         { label: 'Government',            cls: 'type-gov'      },
+  FREELANCE:    { label: 'Consulting',            cls: 'type-contract' },
 };
+
+function contactBlockHTML(contact, variant = 'public') {
+  if (contact) {
+    if (variant === 'ats') {
+      return `<div class="contact">${esc(contact.phone)} | ${esc(contact.email)} | ${esc(contact.address)}</div>`;
+    }
+    return `
+      <div class="contact-box">
+        <div class="section-title">Contact</div>
+        <div class="contact-line">📞 ${esc(contact.phone)}</div>
+        <div class="contact-line">✉️ ${esc(contact.email)}</div>
+        <div class="contact-line">📍 ${esc(contact.address)}</div>
+      </div>`;
+  }
+
+  if (variant === 'ats') {
+    return `<div class="placeholder">[PHONE NUMBER] | [EMAIL ADDRESS] | [ADDRESS/CITY]</div>`;
+  }
+
+  return `
+      <div class="placeholder-box">
+        <span class="ph-label">📋 Fill before sharing</span>
+        📞 [Phone Number]<br/>
+        ✉️ [Email Address]<br/>
+        📍 [Address / City]
+      </div>`;
+}
 
 function filenameKey(fp) {
   return path.basename(fp, '.md').replace('EXPERIENCE_', '').toUpperCase();
 }
 
-function buildHTML({ jobs, readme }) {
+function buildHTML({ jobs, readme, contact = null }) {
+  const resumeJobs = jobs.filter(j => j.contributions.length > 0);
 
   // Experience HTML
-  const expParts = jobs.map((job, idx) => {
+  const expParts = resumeJobs.map((job, idx) => {
     const badge   = TYPE_BADGE[job._key] || { label: 'Contract', cls: 'type-contract' };
     const tags    = job.techTags.map(t => `<span class="tag">${esc(t)}</span>`).join('');
     const bullets = job.contributions.map(b => `<li>${boldify(esc(b))}</li>`).join('');
-    const divider = idx < jobs.length - 1 ? '<hr class="divider"/>' : '';
+    const divider = idx < resumeJobs.length - 1 ? '<hr class="divider"/>' : '';
     return `
         <div class="job">
           <div class="job-header">
@@ -400,23 +469,24 @@ function buildHTML({ jobs, readme }) {
     .edu-program { font-size: 9px; color: var(--mid); }
     .edu-meta    { font-size: 8px; color: var(--light); margin-top: 1px; }
 
+    .placeholder-box, .contact-box {
+      border-radius: 5px; padding: 6px 8px;
+      font-size: 8.5px; margin-bottom: 12px; line-height: 1.6;
+    }
     .placeholder-box {
       background: #fef9c3; border: 1px dashed #f59e0b;
-      border-radius: 5px; padding: 6px 8px;
-      font-size: 8.5px; color: #78350f; margin-bottom: 12px; line-height: 1.6;
+      color: #78350f;
     }
     .placeholder-box .ph-label {
       font-size: 7px; font-weight: 800; text-transform: uppercase;
       letter-spacing: 1px; color: #b45309; display: block; margin-bottom: 2px;
     }
-
-    .fun-fact {
-      background: linear-gradient(135deg, #eff6ff, #faf5ff);
-      border: 1px solid #ddd6fe; border-radius: 6px;
-      padding: 7px 9px; font-size: 9px; color: var(--mid);
-      line-height: 1.45; margin-top: 8px;
+    .contact-box {
+      background: #f0f9ff; border: 1px solid #bae6fd;
+      color: var(--mid);
     }
-    .fun-fact strong { color: var(--accent2); }
+    .contact-box .section-title { margin-bottom: 6px; }
+    .contact-line { margin-bottom: 2px; }
 
     /* Footer */
     .footer {
@@ -471,11 +541,7 @@ function buildHTML({ jobs, readme }) {
 
     <aside class="sidebar">
 
-      <div class="placeholder-box">
-        <span class="ph-label">📋 Fill before sharing</span>
-        📞 [Phone Number]<br/>
-        📍 [Address / City]
-      </div>
+      ${contactBlockHTML(contact, 'public')}
 
       <div class="section">
         <div class="section-title">Skills</div>
@@ -492,10 +558,6 @@ function buildHTML({ jobs, readme }) {
         ${eduHTML}
       </div>
 
-      <div class="fun-fact">
-        <strong>Fun fact:</strong> My code secures Canada's borders, wrangles rodeo cowboys, and helps surgeons in the OR. 🍁🤠🏥
-      </div>
-
     </aside>
   </div>
 
@@ -508,9 +570,11 @@ function buildHTML({ jobs, readme }) {
 </html>`;
 }
 
-function buildATSHTML({ jobs, readme }) {
+function buildATSHTML({ jobs, readme, contact = null }) {
+  const resumeJobs = jobs.filter(j => j.contributions.length > 0);
+
   // Experience sections - plain text with clear structure
-  const expParts = jobs.map((job, idx) => {
+  const expParts = resumeJobs.map((job) => {
     const bullets = job.contributions.map(b => `          <li>${esc(b.replace(/\*\*(.+?)\*\*/g, '$1'))}</li>`).join('\n');
     return `
         <div class="job">
@@ -716,9 +780,7 @@ ${bullets}
     <div class="contact">
       LinkedIn: linkedin.com/in/johnathoncameron | GitHub: github.com/JohnCameron94
     </div>
-    <div class="placeholder">
-      [PHONE NUMBER] | [EMAIL ADDRESS] | [ADDRESS/CITY]
-    </div>
+    ${contactBlockHTML(contact, 'ats')}
   </div>
 
   <div class="section">
@@ -754,6 +816,58 @@ ${certsHTML}
 </html>`;
 }
 
+async function writeResumeSet({ jobs, readme, contact, outDir, label }) {
+  if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+
+  console.log(`\n${label}`);
+  const styledHtml = buildHTML({ jobs, readme, contact });
+  const atsHtml    = buildATSHTML({ jobs, readme, contact });
+
+  const styledHtmlOut = path.join(outDir, 'public_resume.html');
+  const atsHtmlOut    = path.join(outDir, 'ats_resume.html');
+  fs.writeFileSync(styledHtmlOut, styledHtml, 'utf8');
+  fs.writeFileSync(atsHtmlOut, atsHtml, 'utf8');
+  console.log(`  📄 Styled HTML  →  ${path.relative(process.cwd(), styledHtmlOut)}`);
+  console.log(`  📄 ATS HTML     →  ${path.relative(process.cwd(), atsHtmlOut)}`);
+
+  try {
+    const puppeteer = require('puppeteer');
+    console.log('  🖨️  Generating PDFs...');
+
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
+    });
+
+    const styledPage = await browser.newPage();
+    await styledPage.setContent(styledHtml, { waitUntil: 'networkidle0' });
+    const styledPdfOut = path.join(outDir, 'public_resume.pdf');
+    await styledPage.pdf({
+      path:              styledPdfOut,
+      format:            'A4',
+      printBackground:   true,
+      preferCSSPageSize: true,
+      margin:            { top: '0', right: '0', bottom: '0', left: '0' },
+    });
+    console.log(`  📑 Styled PDF   →  ${path.relative(process.cwd(), styledPdfOut)}`);
+
+    const atsPage = await browser.newPage();
+    await atsPage.setContent(atsHtml, { waitUntil: 'networkidle0' });
+    const atsPdfOut = path.join(outDir, 'ats_resume.pdf');
+    await atsPage.pdf({
+      path:            atsPdfOut,
+      format:          'Letter',
+      printBackground: false,
+      margin:          { top: '0.5in', right: '0.75in', bottom: '0.5in', left: '0.75in' },
+    });
+    console.log(`  📑 ATS PDF      →  ${path.relative(process.cwd(), atsPdfOut)}`);
+
+    await browser.close();
+  } catch (err) {
+    console.warn(`  ⚠️  PDF generation skipped: ${err.message}`);
+  }
+}
+
 // ── Main ───────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -783,73 +897,32 @@ async function main() {
     : { summary: '', certs: [], education: null };
   console.log(`  ✅ Parsed README.md  →  ${readme.certs.length} cert(s), education: ${readme.education ? 'yes' : 'no'}`);
 
-  if (!fs.existsSync(PUBLIC_DIR)) fs.mkdirSync(PUBLIC_DIR, { recursive: true });
+  const contact = loadContact();
 
-  // ═══════════════════════════════════════════════════════════════════════
-  // 1. Generate Styled Resume
-  // ═══════════════════════════════════════════════════════════════════════
-  console.log('\n🎨  Building STYLED HTML resume...');
-  const styledHtml = buildHTML({ jobs, readme });
-  const styledHtmlOut = path.join(PUBLIC_DIR, 'public_resume.html');
-  fs.writeFileSync(styledHtmlOut, styledHtml, 'utf8');
-  console.log(`  📄 Styled HTML  →  ${path.relative(process.cwd(), styledHtmlOut)}`);
+  await writeResumeSet({
+    jobs,
+    readme,
+    contact: null,
+    outDir:  PUBLIC_DIR,
+    label:   '🎨  Building public resumes (placeholder contact — safe for GitHub)...',
+  });
 
-  // ═══════════════════════════════════════════════════════════════════════
-  // 2. Generate ATS-Friendly Resume
-  // ═══════════════════════════════════════════════════════════════════════
-  console.log('\n📋  Building ATS-FRIENDLY HTML resume...');
-  const atsHtml = buildATSHTML({ jobs, readme });
-  const atsHtmlOut = path.join(PUBLIC_DIR, 'ats_resume.html');
-  fs.writeFileSync(atsHtmlOut, atsHtml, 'utf8');
-  console.log(`  📄 ATS HTML  →  ${path.relative(process.cwd(), atsHtmlOut)}`);
-
-  // ═══════════════════════════════════════════════════════════════════════
-  // 3. Generate PDFs
-  // ═══════════════════════════════════════════════════════════════════════
-  try {
-    const puppeteer = require('puppeteer');
-    console.log('\n🖨️   Launching headless browser for PDF generation...');
-
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
+  if (contact) {
+    await writeResumeSet({
+      jobs,
+      readme,
+      contact,
+      outDir: path.join(PUBLIC_DIR, 'local'),
+      label:  '📇  Building local resumes (with contact.local.json — gitignored)...',
     });
-
-    // Generate Styled PDF
-    console.log('  🎨 Generating styled PDF...');
-    const styledPage = await browser.newPage();
-    await styledPage.setContent(styledHtml, { waitUntil: 'networkidle0' });
-    const styledPdfOut = path.join(PUBLIC_DIR, 'public_resume.pdf');
-    await styledPage.pdf({
-      path:             styledPdfOut,
-      format:           'A4',
-      printBackground:  true,
-      preferCSSPageSize: true,
-      margin:           { top: '0', right: '0', bottom: '0', left: '0' },
-    });
-    console.log(`  📑 Styled PDF  →  ${path.relative(process.cwd(), styledPdfOut)}`);
-
-    // Generate ATS PDF
-    console.log('  📋 Generating ATS PDF...');
-    const atsPage = await browser.newPage();
-    await atsPage.setContent(atsHtml, { waitUntil: 'networkidle0' });
-    const atsPdfOut = path.join(PUBLIC_DIR, 'ats_resume.pdf');
-    await atsPage.pdf({
-      path:             atsPdfOut,
-      format:           'Letter',
-      printBackground:  false,
-      margin:           { top: '0.5in', right: '0.75in', bottom: '0.5in', left: '0.75in' },
-    });
-    console.log(`  📑 ATS PDF  →  ${path.relative(process.cwd(), atsPdfOut)}`);
-
-    await browser.close();
-  } catch (err) {
-    console.warn('\n⚠️   PDF generation skipped:', err.message);
+  } else {
+    console.log('\nℹ️  No contact.local.json found — only placeholder resumes were generated.');
+    console.log('   Copy contact.local.json.example → contact.local.json to add your details locally.');
   }
 
-  console.log('\n✨  Successfully generated TWO resume versions:');
-  console.log('   🎨 Styled version (public_resume.html + .pdf) - for portfolio/website');
-  console.log('   📋 ATS version (ats_resume.html + .pdf) - for job applications\n');
+  console.log('\n✨  Done.');
+  console.log('   public/       → portfolio + CI (no personal contact info)');
+  console.log('   public/local/ → job applications (only when contact.local.json exists)\n');
 }
 
 main().catch(err => { console.error('\n❌  Fatal:', err); process.exit(1); });
