@@ -19,26 +19,31 @@
     html, body {
       width: 210mm;
       height: 297mm;
+      margin: 0;
+      padding: 0;
       overflow: hidden;
     }
 
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       font-size: 10px;
-      line-height: 1.5;
+      line-height: 1.45;
       color: var(--dark);
       background: #fff;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
       display: flex;
       flex-direction: column;
     }
-
-    .page { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
     /* Header */
     .header {
       background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
       color: #fff;
-      padding: 18px 32px 14px;
+      padding: 14px 32px 12px;
       position: relative;
       overflow: hidden;
       flex-shrink: 0;
@@ -60,12 +65,12 @@
     .links { display: flex; gap: 14px; font-size: 9px; color: #7dd3fc; }
 
     /* Body layout */
-    .body    { display: grid; grid-template-columns: 1fr 200px; flex: 1; overflow: hidden; }
-    .main    { padding: 16px 22px 14px 32px; border-right: 1px solid var(--border); overflow: hidden; }
-    .sidebar { padding: 16px 16px 14px 14px; background: #f8fafc; overflow: hidden; }
+    .body    { display: grid; grid-template-columns: 1fr 200px; align-items: start; flex: 1; min-height: 0; }
+    .main    { padding: 14px 22px 12px 32px; border-right: 1px solid var(--border); }
+    .sidebar { padding: 14px 16px 12px 14px; background: #f8fafc; align-self: stretch; }
 
     /* Sections */
-    .section { margin-bottom: 14px; }
+    .section { margin-bottom: 10px; }
     .section-title {
       font-size: 8.5px; font-weight: 800; letter-spacing: 1.5px;
       text-transform: uppercase; color: var(--accent);
@@ -80,7 +85,7 @@
     }
 
     /* Jobs */
-    .job           { margin-bottom: 12px; }
+    .job { margin-bottom: 8px; }
     .job:last-child { margin-bottom: 0; }
     .job-header    { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1px; }
     .job-title     { font-size: 11px; font-weight: 700; color: var(--dark); }
@@ -94,22 +99,22 @@
     .job-tags      { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 5px; }
     .tag           { background: var(--tag-bg); color: var(--tag-fg); border-radius: 3px; padding: 1px 5px; font-size: 8.5px; font-weight: 600; }
     .job ul        { list-style: none; padding: 0; }
-    .job ul li     { font-size: 9.5px; color: var(--mid); padding-left: 11px; position: relative; margin-bottom: 2px; line-height: 1.45; }
+    .job ul li     { font-size: 9.5px; color: var(--mid); padding-left: 11px; position: relative; margin-bottom: 1px; line-height: 1.4; }
     .job ul li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 8px; top: 1px; }
-    .divider       { border: none; border-top: 1px dashed var(--border); margin: 10px 0; }
+    .divider       { border: none; border-top: 1px dashed var(--border); margin: 7px 0; }
 
     /* Sidebar */
     .sidebar .section-title { font-size: 7.5px; }
-    .skill-group      { margin-bottom: 8px; }
+    .skill-group      { margin-bottom: 6px; }
     .skill-group-name { font-size: 7.5px; font-weight: 700; color: var(--mid); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
     .skill-tags       { display: flex; flex-wrap: wrap; gap: 3px; }
     .skill-tag        { background: var(--border); color: var(--mid); border-radius: 3px; padding: 1px 5px; font-size: 8.5px; font-weight: 500; }
 
     .cert-item {
-      font-size: 8.5px; color: var(--dark); line-height: 1.3;
-      padding: 3px 0 3px 7px;
+      font-size: 8px; color: var(--dark); line-height: 1.25;
+      padding: 2px 0 2px 7px;
       border-left: 2px solid var(--accent);
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .edu-school  { font-size: 10px; font-weight: 700; color: var(--dark); }
@@ -134,12 +139,14 @@
     }
     .contact-box .section-title { margin-bottom: 6px; }
     .contact-line { margin-bottom: 2px; }
+    .spoken-lang { display: flex; flex-wrap: wrap; gap: 3px; }
 
     /* Footer */
     .footer {
       background: #0f172a; color: #64748b;
-      text-align: center; padding: 7px 32px;
+      text-align: center; padding: 6px 32px;
       font-size: 8px; flex-shrink: 0;
+      margin-top: auto;
     }
     .footer span { color: #94a3b8; }
 
@@ -159,6 +166,7 @@
       <div class="header-tags">
         <span class="htag">☁️ AWS Certified</span>
         <span class="htag">📱 iOS · Android · Cross-Platform</span>
+        <span class="htag">🌐 Bilingual — English &amp; French</span>
         <span class="htag">🏛️ Gov't Cleared</span>
         <span class="htag">🍁 Ottawa, ON</span>
         <span class="htag">5+ Years Experience</span>
@@ -200,7 +208,7 @@
           <div class="job-company">RodeoReady Ltd. <span class="job-loc">· Calgary, AB</span></div>
           <span class="job-type type-startup">Startup</span>
           <div class="job-tags"><span class="tag">Kotlin</span><span class="tag">Objective-C</span><span class="tag">Swift</span><span class="tag">Jetpack Compose</span><span class="tag">CoreData</span><span class="tag">Room</span><span class="tag">React</span><span class="tag">MUI</span></div>
-          <ul><li>End-to-end mobile presence for the RodeoReady platform</li><li>Complete web platform for rodeo event management</li><li>Cost-effective, auto-scaling cloud infrastructure</li><li>Live data updates for time-sensitive rodeo events</li><li>Secure, compliant cloud account governance</li><li>Reduced onboarding friction and improved team velocity</li><li>Elevated overall team code quality and standards</li></ul>
+          <ul><li>Built and shipped iOS + Android apps from the ground up — End-to-end mobile presence for the RodeoReady platform</li><li>Delivered full React TypeScript web application — Complete web platform for rodeo event management</li><li>Architected and deployed AWS Serverless backend (Lambda, API Gateway, AppSync, DynamoDB, SNS, SQS) — Cost-effective, auto-scaling cloud infrastructure with IaC and least-privilege IAM</li><li>Implemented real-time WebSocket layer — Live data updates for time-sensitive rodeo events</li><li>Managed AWS IAM with least privilege — Secure, compliant cloud account governance</li><li>Maintained Swagger + Confluence docs — Reduced onboarding friction and improved team velocity</li><li>Mentored team members + led code reviews — Elevated overall team code quality and standards</li></ul>
         </div><hr class="divider"/>
         <div class="job">
           <div class="job-header">
@@ -210,7 +218,7 @@
           <div class="job-company">Canada Border Services Agency (CBSA) <span class="job-loc">· Ottawa, ON</span></div>
           <span class="job-type type-gov">Government</span>
           <div class="job-tags"><span class="tag">Java 8</span><span class="tag">JEE</span><span class="tag">Typescript</span><span class="tag">Javascript</span><span class="tag">Python</span><span class="tag">Spring Boot</span><span class="tag">Hibernate</span><span class="tag">JSF</span></div>
-          <ul><li>️ Maintained 8 major Java enterprise applications simultaneously across Spring Boot, Hibernate, JEE, and Pub/Sub architectures.</li><li>Led multiple major release cycles with full impact analysis, coordinated across cross-functional teams.</li><li>️ Implemented full CI/CD pipelines using AWS CodePipeline, CodeBuild, and CodeDeploy.</li><li>️ Deployed cloud infrastructure using AWS CDK across multiple environments.</li><li>Championed TDD across the team using JUnit and Jest.</li><li>Mentored developers, conducted code reviews, and participated in technical hiring panels.</li><li>Participated in 24/7 on-call production support with direct client communication.</li></ul>
+          <ul><li>Maintained 8 major Java enterprise applications simultaneously across Spring Boot, Hibernate, JEE, and Pub/Sub architectures.</li><li>Designed and deployed AWS Serverless architecture for Secure Corridor — Lambda, API Gateway, DynamoDB, Kinesis, and SQS for real-time border event processing.</li><li>Architected infrastructure-as-code with AWS CDK (Python/TypeScript) and automated CI/CD via CodePipeline, CodeBuild, and CodeDeploy across environments.</li><li>Led multiple major release cycles with full impact analysis, coordinated across cross-functional teams.</li><li>Championed TDD across the team using JUnit and Jest.</li><li>Mentored developers, conducted code reviews, and participated in technical hiring panels.</li><li>Participated in 24/7 on-call production support with direct client communication.</li></ul>
         </div><hr class="divider"/>
         <div class="job">
           <div class="job-header">
@@ -219,7 +227,7 @@
           </div>
           <div class="job-company">Independent IT Consultant</div>
           <span class="job-type type-contract">Consulting</span>
-          <div class="job-tags"><span class="tag">Microsoft 365</span><span class="tag">Google Workspace</span><span class="tag">Microsoft Azure</span><span class="tag">Microsoft Exchange Online</span><span class="tag">Google Workspace Gmail</span><span class="tag">SMTP relay configuration</span><span class="tag">DNS</span><span class="tag">Microsoft Intune</span></div>
+          <div class="job-tags"></div>
           <ul><li>Successfully migrated 3 businesses to cloud platforms (2 to Microsoft 365, 1 to Google Workspace)</li><li>Configured and maintained secure cloud email systems with 99.9% uptime</li><li>Implemented Intune MDM for device management across multiple client organizations</li><li>Strengthened email security posture (SPF/DKIM/DMARC compliance across all deployments)</li><li>Managed Wix, WordPress, and DNS hosting setups for client web presence</li><li>Deployed secure network infrastructure with properly segmented public/private networks</li><li>Optimized dual-band WiFi configurations for performance and device compatibility</li></ul>
         </div>
       </div>
@@ -236,11 +244,17 @@
         📍 [Address / City]
       </div>
 
+      
+      <div class="section">
+        <div class="section-title">Languages</div>
+        <div class="spoken-lang"><span class="skill-tag">English</span><span class="skill-tag">French (Bilingual)</span></div>
+      </div>
+
       <div class="section">
         <div class="section-title">Skills</div>
         
           <div class="skill-group">
-            <div class="skill-group-name">Languages</div>
+            <div class="skill-group-name">Programming</div>
             <div class="skill-tags"><span class="skill-tag">TypeScript</span><span class="skill-tag">JavaScript</span><span class="skill-tag">Java</span><span class="skill-tag">Kotlin</span><span class="skill-tag">Python</span><span class="skill-tag">Swift</span><span class="skill-tag">Obj-C</span><span class="skill-tag">C</span></div>
           </div>
           <div class="skill-group">
@@ -253,7 +267,7 @@
           </div>
           <div class="skill-group">
             <div class="skill-group-name">Cloud &amp; Databases</div>
-            <div class="skill-tags"><span class="skill-tag">AWS Lambda</span><span class="skill-tag">AWS CDK</span><span class="skill-tag">AppSync</span><span class="skill-tag">DynamoDB</span><span class="skill-tag">SQS/SNS</span><span class="skill-tag">MySQL</span></div>
+            <div class="skill-tags"><span class="skill-tag">AWS Lambda</span><span class="skill-tag">AWS CDK</span><span class="skill-tag">AppSync</span><span class="skill-tag">DynamoDB</span><span class="skill-tag">SQS/SNS</span><span class="skill-tag">Kinesis</span><span class="skill-tag">MySQL</span></div>
           </div>
       </div>
 

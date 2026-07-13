@@ -166,36 +166,26 @@ function parseExperience(filepath) {
     if (section === 'contrib' && !inCodeBlock && contributions.length < 7) {
       const bullet = line.match(/^-\s+(.+)/);
       if (bullet) {
-        const text = bullet[1]
-          .replace(/\*\*(.+?)\*\*/g, '$1')
-          .replace(/[\u{1F300}-\u{1FAFF}]/gu, '')
-          .replace(/[\u2600-\u27BF]/gu, '')
-          .trim();
+        const text = stripEmoji(bullet[1].replace(/\*\*(.+?)\*\*/g, '$1'));
         if (text) contributions.push(text);
       }
     }
 
     // Contributions — code-block lines (WebMarketers, max 7)
     if (section === 'contrib' && inCodeBlock && contributions.length < 7) {
-      const text = line
-        .replace(/^[\u{1F300}-\u{1FAFF}]|[\u2600-\u27BF]/gu, '')
-        .trim();
+      const text = stripEmoji(line);
       if (text) contributions.push(text);
     }
 
-    // Key Achievements table — Impact column (RodeoReady, max 7)
+    // Key Achievements table — achievement + impact (RodeoReady, max 7)
     if (section === 'achievements' && !inCodeBlock && contributions.length < 7) {
-      const row = line.match(/^\|\s*[^|]+\|\s*([^|]+)\s*\|/);
+      const row = line.match(/^\|\s*([^|]+)\|\s*([^|]+)\s*\|/);
       if (row) {
-        const val = row[1]
-          .replace(/[\u{1F300}-\u{1FAFF}]/gu, '')
-          .replace(/[\u2600-\u27BF]/gu, '')
-          .replace(/\*\*/g, '')
-          .trim();
-        // Skip header row, separator rows, and empty values
-        if (val && val !== 'Impact' && !isTableSeparator(val)) {
-          contributions.push(val);
-        }
+        const achievement = stripEmoji(row[1]).replace(/\*\*/g, '').trim();
+        const impact = stripEmoji(row[2]).replace(/\*\*/g, '').trim();
+        if (!achievement || achievement === 'Achievement' || isTableSeparator(achievement)) continue;
+        const text = impact ? `${achievement} — ${impact}` : achievement;
+        contributions.push(text);
       }
     }
 
@@ -265,6 +255,21 @@ function parseReadme(filepath) {
 
 // ── HTML Builder ───────────────────────────────────────────────────────────────
 
+const SPOKEN_LANGUAGES = ['English', 'French (Bilingual)'];
+
+function spokenLanguagesHTML(variant = 'public') {
+  if (variant === 'ats') {
+    return `
+        <div class="skill-group">
+          <strong>Languages:</strong> ${esc(SPOKEN_LANGUAGES.join(', '))}
+        </div>`;
+  }
+  return `
+      <div class="section">
+        <div class="section-title">Languages</div>
+        <div class="spoken-lang">${SPOKEN_LANGUAGES.map(l => `<span class="skill-tag">${esc(l)}</span>`).join('')}</div>
+      </div>`;
+}
 const TYPE_BADGE = {
   WEBMARKETERS: { label: 'Contract · Healthcare', cls: 'type-contract' },
   RODEOREADY:   { label: 'Startup',               cls: 'type-startup'  },
@@ -309,7 +314,8 @@ function buildHTML({ jobs, readme, contact = null }) {
   // Experience HTML
   const expParts = resumeJobs.map((job, idx) => {
     const badge   = TYPE_BADGE[job._key] || { label: 'Contract', cls: 'type-contract' };
-    const tags    = job.techTags.map(t => `<span class="tag">${esc(t)}</span>`).join('');
+    const tagList = job._key === 'FREELANCE' ? [] : job.techTags.slice(0, 8);
+    const tags    = tagList.map(t => `<span class="tag">${esc(t)}</span>`).join('');
     const bullets = job.contributions.map(b => `<li>${boldify(esc(b))}</li>`).join('');
     const divider = idx < resumeJobs.length - 1 ? '<hr class="divider"/>' : '';
     return `
@@ -320,17 +326,17 @@ function buildHTML({ jobs, readme, contact = null }) {
           </div>
           <div class="job-company">${esc(job.company)}${job.location ? ` <span class="job-loc">· ${esc(job.location)}</span>` : ''}</div>
           <span class="job-type ${badge.cls}">${badge.label}</span>
-          <div class="job-tags">${tags}</div>
+          ${job.techTags.length ? `<div class="job-tags">${tags}</div>` : ''}
           <ul>${bullets}</ul>
         </div>${divider}`;
   }).join('');
 
   // Skills (4 groups to save space)
   const SKILLS = [
-    { group: 'Languages',          tags: ['TypeScript', 'JavaScript', 'Java', 'Kotlin', 'Python', 'Swift', 'Obj-C', 'C'] },
+    { group: 'Programming',        tags: ['TypeScript', 'JavaScript', 'Java', 'Kotlin', 'Python', 'Swift', 'Obj-C', 'C'] },
     { group: 'Mobile',             tags: ['Ionic + Angular', 'Capacitor', 'Jetpack Compose', 'CoreData/Room', 'APNS/FCM'] },
     { group: 'Frontend / Backend', tags: ['React', 'Angular', 'Node.js', 'Spring Boot', 'GraphQL', 'Express'] },
-    { group: 'Cloud & Databases',  tags: ['AWS Lambda', 'AWS CDK', 'AppSync', 'DynamoDB', 'SQS/SNS', 'MySQL'] },
+    { group: 'Cloud & Databases',  tags: ['AWS Lambda', 'AWS CDK', 'AppSync', 'DynamoDB', 'SQS/SNS', 'Kinesis', 'MySQL'] },
   ];
 
   const skillsHTML = SKILLS.map(s => `
@@ -372,26 +378,31 @@ function buildHTML({ jobs, readme, contact = null }) {
     html, body {
       width: 210mm;
       height: 297mm;
+      margin: 0;
+      padding: 0;
       overflow: hidden;
     }
 
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       font-size: 10px;
-      line-height: 1.5;
+      line-height: 1.45;
       color: var(--dark);
       background: #fff;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
       display: flex;
       flex-direction: column;
     }
-
-    .page { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
     /* Header */
     .header {
       background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
       color: #fff;
-      padding: 18px 32px 14px;
+      padding: 14px 32px 12px;
       position: relative;
       overflow: hidden;
       flex-shrink: 0;
@@ -413,12 +424,12 @@ function buildHTML({ jobs, readme, contact = null }) {
     .links { display: flex; gap: 14px; font-size: 9px; color: #7dd3fc; }
 
     /* Body layout */
-    .body    { display: grid; grid-template-columns: 1fr 200px; flex: 1; overflow: hidden; }
-    .main    { padding: 16px 22px 14px 32px; border-right: 1px solid var(--border); overflow: hidden; }
-    .sidebar { padding: 16px 16px 14px 14px; background: #f8fafc; overflow: hidden; }
+    .body    { display: grid; grid-template-columns: 1fr 200px; align-items: start; flex: 1; min-height: 0; }
+    .main    { padding: 14px 22px 12px 32px; border-right: 1px solid var(--border); }
+    .sidebar { padding: 14px 16px 12px 14px; background: #f8fafc; align-self: stretch; }
 
     /* Sections */
-    .section { margin-bottom: 14px; }
+    .section { margin-bottom: 10px; }
     .section-title {
       font-size: 8.5px; font-weight: 800; letter-spacing: 1.5px;
       text-transform: uppercase; color: var(--accent);
@@ -433,7 +444,7 @@ function buildHTML({ jobs, readme, contact = null }) {
     }
 
     /* Jobs */
-    .job           { margin-bottom: 12px; }
+    .job { margin-bottom: 8px; }
     .job:last-child { margin-bottom: 0; }
     .job-header    { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1px; }
     .job-title     { font-size: 11px; font-weight: 700; color: var(--dark); }
@@ -447,22 +458,22 @@ function buildHTML({ jobs, readme, contact = null }) {
     .job-tags      { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 5px; }
     .tag           { background: var(--tag-bg); color: var(--tag-fg); border-radius: 3px; padding: 1px 5px; font-size: 8.5px; font-weight: 600; }
     .job ul        { list-style: none; padding: 0; }
-    .job ul li     { font-size: 9.5px; color: var(--mid); padding-left: 11px; position: relative; margin-bottom: 2px; line-height: 1.45; }
+    .job ul li     { font-size: 9.5px; color: var(--mid); padding-left: 11px; position: relative; margin-bottom: 1px; line-height: 1.4; }
     .job ul li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 8px; top: 1px; }
-    .divider       { border: none; border-top: 1px dashed var(--border); margin: 10px 0; }
+    .divider       { border: none; border-top: 1px dashed var(--border); margin: 7px 0; }
 
     /* Sidebar */
     .sidebar .section-title { font-size: 7.5px; }
-    .skill-group      { margin-bottom: 8px; }
+    .skill-group      { margin-bottom: 6px; }
     .skill-group-name { font-size: 7.5px; font-weight: 700; color: var(--mid); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
     .skill-tags       { display: flex; flex-wrap: wrap; gap: 3px; }
     .skill-tag        { background: var(--border); color: var(--mid); border-radius: 3px; padding: 1px 5px; font-size: 8.5px; font-weight: 500; }
 
     .cert-item {
-      font-size: 8.5px; color: var(--dark); line-height: 1.3;
-      padding: 3px 0 3px 7px;
+      font-size: 8px; color: var(--dark); line-height: 1.25;
+      padding: 2px 0 2px 7px;
       border-left: 2px solid var(--accent);
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .edu-school  { font-size: 10px; font-weight: 700; color: var(--dark); }
@@ -487,12 +498,14 @@ function buildHTML({ jobs, readme, contact = null }) {
     }
     .contact-box .section-title { margin-bottom: 6px; }
     .contact-line { margin-bottom: 2px; }
+    .spoken-lang { display: flex; flex-wrap: wrap; gap: 3px; }
 
     /* Footer */
     .footer {
       background: #0f172a; color: #64748b;
-      text-align: center; padding: 7px 32px;
+      text-align: center; padding: 6px 32px;
       font-size: 8px; flex-shrink: 0;
+      margin-top: auto;
     }
     .footer span { color: #94a3b8; }
 
@@ -512,6 +525,7 @@ function buildHTML({ jobs, readme, contact = null }) {
       <div class="header-tags">
         <span class="htag">☁️ AWS Certified</span>
         <span class="htag">📱 iOS · Android · Cross-Platform</span>
+        <span class="htag">🌐 Bilingual — English &amp; French</span>
         <span class="htag">🏛️ Gov't Cleared</span>
         <span class="htag">🍁 Ottawa, ON</span>
         <span class="htag">5+ Years Experience</span>
@@ -542,6 +556,8 @@ function buildHTML({ jobs, readme, contact = null }) {
     <aside class="sidebar">
 
       ${contactBlockHTML(contact, 'public')}
+
+      ${spokenLanguagesHTML('public')}
 
       <div class="section">
         <div class="section-title">Skills</div>
@@ -592,14 +608,19 @@ ${bullets}
 
   // Skills - grouped plainly
   const SKILLS = [
-    { group: 'Languages', tags: ['TypeScript', 'JavaScript', 'Java', 'Kotlin', 'Python', 'Swift', 'Objective-C', 'C'] },
+    { group: 'Programming Languages', tags: ['TypeScript', 'JavaScript', 'Java', 'Kotlin', 'Python', 'Swift', 'Objective-C', 'C'] },
     { group: 'Mobile Development', tags: ['Ionic + Angular', 'Capacitor', 'Jetpack Compose', 'CoreData', 'Room', 'APNS', 'FCM'] },
     { group: 'Frontend & Backend', tags: ['React', 'Angular', 'Node.js', 'Spring Boot', 'GraphQL', 'Express', 'Flask'] },
     { group: 'Cloud & Infrastructure', tags: ['AWS Lambda', 'AWS CDK', 'AppSync', 'DynamoDB', 'SQS', 'SNS', 'Kinesis', 'Jenkins'] },
     { group: 'Databases', tags: ['MySQL', 'PostgreSQL', 'MongoDB', 'DynamoDB', 'Amazon RDS'] },
   ];
 
-  const skillsHTML = SKILLS.map(s => `
+  const skillsHTML = SPOKEN_LANGUAGES.length
+    ? spokenLanguagesHTML('ats') + SKILLS.map(s => `
+        <div class="skill-group">
+          <strong>${esc(s.group)}:</strong> ${esc(s.tags.join(', '))}
+        </div>`).join('')
+    : SKILLS.map(s => `
         <div class="skill-group">
           <strong>${esc(s.group)}:</strong> ${esc(s.tags.join(', '))}
         </div>`).join('');
@@ -776,7 +797,7 @@ ${bullets}
 
   <div class="header">
     <h1>JOHNATHON CAMERON</h1>
-    <div class="title">Full Stack Software Engineer | Mobile Developer | Cloud Architect</div>
+    <div class="title">Full Stack Software Engineer | Mobile Developer | Cloud Architect | Bilingual (English/French)</div>
     <div class="contact">
       LinkedIn: linkedin.com/in/johnathoncameron | GitHub: github.com/JohnCameron94
     </div>
@@ -846,7 +867,6 @@ async function writeResumeSet({ jobs, readme, contact, outDir, label }) {
       path:              styledPdfOut,
       format:            'A4',
       printBackground:   true,
-      preferCSSPageSize: true,
       margin:            { top: '0', right: '0', bottom: '0', left: '0' },
     });
     console.log(`  📑 Styled PDF   →  ${path.relative(process.cwd(), styledPdfOut)}`);

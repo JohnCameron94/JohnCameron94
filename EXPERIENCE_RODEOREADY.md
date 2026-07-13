@@ -96,7 +96,7 @@
 |------------|--------|
 | 📱 Built and shipped iOS + Android apps from the ground up | End-to-end mobile presence for the RodeoReady platform |
 | 🌐 Delivered full React TypeScript web application | Complete web platform for rodeo event management |
-| ☁️ Architected scalable AWS Serverless backend | Cost-effective, auto-scaling cloud infrastructure |
+| ☁️ Architected and deployed AWS Serverless backend (Lambda, API Gateway, AppSync, DynamoDB, SNS, SQS) | Cost-effective, auto-scaling cloud infrastructure with IaC and least-privilege IAM |
 | 🔄 Implemented real-time WebSocket layer | Live data updates for time-sensitive rodeo events |
 | 🛡️ Managed AWS IAM with least privilege | Secure, compliant cloud account governance |
 | 📖 Maintained Swagger + Confluence docs | Reduced onboarding friction and improved team velocity |

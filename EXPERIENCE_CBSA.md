@@ -98,11 +98,9 @@ The Secure Corridor platform integrates with border infrastructure, biometric ve
 ## 🏆 Overall Accomplishments at CBSA
 
 - 🗂️ **Maintained 8 major Java enterprise applications** simultaneously across Spring Boot, Hibernate, JEE, and Pub/Sub architectures.
+- 🏗️ **Designed and deployed AWS Serverless architecture** for Secure Corridor — Lambda, API Gateway, DynamoDB, Kinesis, and SQS for real-time border event processing.
+- ☁️ **Architected infrastructure-as-code** with AWS CDK (Python/TypeScript) and automated CI/CD via CodePipeline, CodeBuild, and CodeDeploy across environments.
 - 🚀 **Led multiple major release cycles** with full impact analysis, coordinated across cross-functional teams.
-- 🏗️ **Implemented full CI/CD pipelines** using AWS CodePipeline, CodeBuild, and CodeDeploy.
-- ☁️ **Deployed cloud infrastructure** using AWS CDK across multiple environments.
 - 🧪 **Championed TDD** across the team using JUnit and Jest.
 - 👥 **Mentored developers**, conducted code reviews, and participated in technical hiring panels.
 - 🔄 **Participated in 24/7 on-call production support** with direct client communication.
-- 🐍 **Developed reusable Python packages** to standardize tooling and reduce duplication across team projects.
-- 📋 **Led and participated in Agile ceremonies** — Scrum, Sprint planning, and retrospectives.
