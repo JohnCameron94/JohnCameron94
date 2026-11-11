@@ -27,10 +27,10 @@
 ```typescript
 const johnathon: Developer = {
   location:     "Ottawa, ON 🍁",
-  experience:   "5+ years in public & private sector",
+  experience:   "8+ years across defence, government, startups, and healthcare",
   education:    "Computer Engineering & Technology — Algonquin College (Honors, 3.77 GPA)",
   certification: "AWS Certified Cloud Practitioner ☁️",
-  currentFocus: ["Cloud Architecture", "Mobile Development", "Serverless Systems"],
+  currentFocus: ["SATCOM Monitor & Control", "Network Management Systems", "Operator Automation"],
   funFact:      "I automate things just because I can 🤖",
   workEthic:    "Ship fast. Learn fast. Break nothing in prod... usually. 😅"
 };
@@ -38,7 +38,7 @@ const johnathon: Developer = {
 
 I'm a **self-sufficient, results-driven software engineer** who thrives in environments where the problems are hard, the stakes are high, and the coffee is strong. ☕
 
-With **5+ years of experience** spanning the **public sector** (Canada Border Services Agency 🍁), the **private startup world** (RodeoReady 🤠), and **healthcare contracting** (Picis Clinical Solutions via WebMarketers 🏥), I've built everything from mission-critical government border security systems to cross-platform mobile apps used in operating rooms worldwide — and I genuinely love every part of it.
+With **8+ years of experience** spanning **defence** (Department of National Defence 🛡️), the **public sector** (Canada Border Services Agency 🍁), the **private startup world** (RodeoReady 🤠), and **healthcare contracting** (Picis Clinical Solutions via WebMarketers 🏥), I've built everything from the monitor-and-control backbone behind satellite communications to mission-critical border systems and cross-platform clinical apps — and I genuinely love every part of it.
 
 I don't just write code. I architect solutions, mentor teammates, automate workflows, and make sure things keep running at 3am when they should be. My toolkit is broad, my curiosity is relentless, and I believe that **great software is both an art and a science**.
 
@@ -48,8 +48,9 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 
 | Role | Company | Period | Type |
 |------|---------|--------|------|
-| 🏥 Mobile Developer (Contract) | [WebMarketers → Picis Clinical Solutions](EXPERIENCE_WEBMARKETERS.md) | Feb 2026 – Present | Contract / Healthcare |
+| 🛡️ Network Management System Specialist / Software Engineer | [Department of National Defence](EXPERIENCE_DND.md) | Sep 2026 – Present | Government / Defence |
 | 🚀 Freelance IT Consultant | [Independent IT Consulting](EXPERIENCE_FREELANCE.md) | May 2025 – Present | Freelance / IT Infrastructure |
+| 🏥 Mobile Developer (Contract) | [WebMarketers → Picis Clinical Solutions](EXPERIENCE_WEBMARKETERS.md) | Feb 2026 – Aug 2026 | Contract / Healthcare |
 | 🤠 Software Engineer (Full Stack) | [RodeoReady Ltd.](EXPERIENCE_RODEOREADY.md) | Feb 2023 – Feb 2025 | Private / Startup |
 | 🍁 Software Engineer / Technical Lead | [Canada Border Services Agency](EXPERIENCE_CBSA.md) | Oct 2018 – Feb 2023 | Government / Public Sector |
 
@@ -68,6 +69,7 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Kotlin](https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white)
 ![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)
+![Lua](https://img.shields.io/badge/Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white)
 ![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
@@ -91,6 +93,7 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 ![DynamoDB](https://img.shields.io/badge/DynamoDB-4053D6?style=for-the-badge&logo=amazon-dynamodb&logoColor=white)
 ![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white)
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+![VMware](https://img.shields.io/badge/VMware_ESXi-607078?style=for-the-badge&logo=vmware&logoColor=white)
 
 ### 🗄️ Databases
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
@@ -166,8 +169,9 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 2022 ──── Achieved AWS Cloud Practitioner Certification ☁️
 2023 ──── Joined RodeoReady as Full Stack Engineer 🤠
 2025 ──── Left RodeoReady (February), started freelance IT consulting (May) 🚀
-2026 ──── Contract role via WebMarketers → Picis Anesthesia Lite mobile app 🏥
-2026 ──── Continuing to balance software development & freelance IT consulting 🚀
+2026 ──── Contract role via WebMarketers → Picis Anesthesia Lite (Feb–Aug) 🏥
+2026 ──── Joined the Department of National Defence — Network Management System Specialist 🛡️
+2026 ──── Still balancing defence software work & freelance IT consulting 🚀
 ```
 
 ---
@@ -205,6 +209,38 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 - CI/CD Pipelines
 - Event-driven systems (SQS, SNS, Kinesis)
 - IoT messaging (MQTT, Solace PubSub+)
+
+</td>
+</tr>
+<tr>
+<td valign="top" width="33%">
+
+### 📡 SATCOM Monitor & Control
+- Kratos Compass M&C features
+- SNMP, Modbus, TCP/UDP, and HTTP device integration
+- C device drivers, Lua, and BeanShell
+- Operator workflow automation in Bash
+- VMware ESXi, iDRAC, and management networking
+
+</td>
+<td valign="top" width="33%">
+
+### 🏛️ Operational Software
+- Alarm, telemetry, and control in one operator view
+- Power distribution tied into the SATCOM chain
+- Ground-station devices on the same console
+- Shift procedures encoded as repeatable workflows
+- Changes made so the next crew inherits a known state
+
+</td>
+<td valign="top" width="33%">
+
+### 🛠️ Systems Practice
+- Segmented management networks
+- iDRAC out-of-band server access
+- VMware ESXi for the management hosts
+- Drivers that fail visibly instead of silently
+- Procedures an operator can run without an engineer beside them
 
 </td>
 </tr>

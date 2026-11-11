@@ -2,7 +2,7 @@
 
 # 🏥 WebMarketers × Picis — Contract Engagement
 
-### Mobile Software Developer (Contract) | Feb 2026 – Present
+### Mobile Software Developer (Contract) | February 2026 – August 2026
 
 [![WebMarketers](https://img.shields.io/badge/WebMarketers-Ottawa,_ON-FF6B35?style=for-the-badge&logoColor=white)](https://webmarketers.ca)
 [![Picis](https://img.shields.io/badge/Client-Picis_Clinical_Solutions-00A9CE?style=for-the-badge&logoColor=white)](https://picis.com)
@@ -19,7 +19,7 @@
 
 > *"Where cutting-edge healthcare meets pixel-perfect mobile UX"*
 
-Brought on as a **contract frontend mobile developer** through **[WebMarketers](https://webmarketers.ca)** — one of Ottawa's premier digital agencies — to contribute to a high-stakes healthcare product that puts clinical power directly in the hands of anesthesiologists. No pressure, just people's lives. 😅
+Brought on as a **contract frontend mobile developer** through **[WebMarketers](https://webmarketers.ca)** — one of Ottawa's premier digital agencies — to contribute to a high-stakes healthcare product that puts clinical power directly in the hands of anesthesiologists. No pressure, just people's lives. 😅 The contract ran **February through August 2026**.
 
 The project: **Picis Anesthesia Lite** — a sleek, cross-platform mobile companion to [Picis Clinical Solutions](https://picis.com)' industry-leading perioperative and anesthesia management platform. Picis serves **thousands of hospitals and surgical centers worldwide**, providing mission-critical software for some of the most complex clinical workflows in healthcare.
 

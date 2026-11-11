@@ -19,7 +19,7 @@
 
 After completing my tenure at RodeoReady in February 2025, I launched freelance IT consulting work in May 2025. This ongoing consulting work allows me to work directly with diverse small-to-medium businesses, solve real-world IT challenges, and maintain deep expertise in cloud-based enterprise systems and device management.
 
-Rather than building software applications, I architect and implement the foundational IT infrastructure that modern businesses rely on — email systems, collaboration platforms, identity management, device security, and network infrastructure. I continue to support these businesses alongside my software development work at WebMarketers (started February 2026).
+Rather than building software applications, I architect and implement the foundational IT infrastructure that modern businesses rely on — email systems, collaboration platforms, identity management, device security, and network infrastructure. I still support these businesses alongside my software work: the Picis contract from February through August 2026, and now the Department of National Defence.
 
 ---
 
@@ -187,7 +187,7 @@ This experience reinforces that great technology isn't just about writing elegan
 
 ## 🔄 Balancing Consulting & Software Development
 
-Since February 2026, I've been balancing ongoing freelance IT consulting with software development work at WebMarketers (Picis Clinical Solutions contract). This dual focus provides:
+From February through August 2026 I balanced this consulting with the Picis Clinical Solutions contract. That engagement has ended, and the software side of the split is now my role at the Department of National Defence. The dual focus still provides:
 
 - A **deeper appreciation for infrastructure** that software depends on
 - Experience working **directly with non-technical stakeholders**

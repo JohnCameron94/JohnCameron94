@@ -43,7 +43,7 @@
     .header {
       background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
       color: #fff;
-      padding: 14px 32px 12px;
+      padding: 11px 32px 9px;
       position: relative;
       overflow: hidden;
       flex-shrink: 0;
@@ -66,16 +66,16 @@
 
     /* Body layout */
     .body    { display: grid; grid-template-columns: 1fr 200px; align-items: start; flex: 1; min-height: 0; }
-    .main    { padding: 14px 22px 12px 32px; border-right: 1px solid var(--border); }
-    .sidebar { padding: 14px 16px 12px 14px; background: #f8fafc; align-self: stretch; }
+    .main    { padding: 10px 18px 8px 28px; border-right: 1px solid var(--border); }
+    .sidebar { padding: 10px 14px 8px 12px; background: #f8fafc; align-self: stretch; }
 
     /* Sections */
-    .section { margin-bottom: 10px; }
+    .section { margin-bottom: 7px; }
     .section-title {
       font-size: 8.5px; font-weight: 800; letter-spacing: 1.5px;
       text-transform: uppercase; color: var(--accent);
       border-bottom: 1.5px solid var(--border);
-      padding-bottom: 3px; margin-bottom: 9px;
+      padding-bottom: 2px; margin-bottom: 6px;
     }
 
     /* Summary */
@@ -85,7 +85,7 @@
     }
 
     /* Jobs */
-    .job { margin-bottom: 8px; }
+    .job { margin-bottom: 4px; }
     .job:last-child { margin-bottom: 0; }
     .job-header    { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1px; }
     .job-title     { font-size: 11px; font-weight: 700; color: var(--dark); }
@@ -99,9 +99,9 @@
     .job-tags      { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 5px; }
     .tag           { background: var(--tag-bg); color: var(--tag-fg); border-radius: 3px; padding: 1px 5px; font-size: 8.5px; font-weight: 600; }
     .job ul        { list-style: none; padding: 0; }
-    .job ul li     { font-size: 9.5px; color: var(--mid); padding-left: 11px; position: relative; margin-bottom: 1px; line-height: 1.4; }
+    .job ul li     { font-size: 9px; color: var(--mid); padding-left: 11px; position: relative; margin-bottom: 0; line-height: 1.35; }
     .job ul li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 8px; top: 1px; }
-    .divider       { border: none; border-top: 1px dashed var(--border); margin: 7px 0; }
+    .divider       { border: none; border-top: 1px dashed var(--border); margin: 4px 0; }
 
     /* Sidebar */
     .sidebar .section-title { font-size: 7.5px; }
@@ -169,7 +169,7 @@
         <span class="htag">🌐 Bilingual — English &amp; French</span>
         <span class="htag">🏛️ Gov't Cleared</span>
         <span class="htag">🍁 Ottawa, ON</span>
-        <span class="htag">5+ Years Experience</span>
+        <span class="htag">8+ Years Experience</span>
       </div>
       <div class="links">
         <span>🔗 linkedin.com/in/johnathoncameron</span>
@@ -192,8 +192,18 @@
         
         <div class="job">
           <div class="job-header">
+            <div class="job-title">Network Management System Specialist / Software Engineer</div>
+            <div class="job-period">September 2026 – Present</div>
+          </div>
+          <div class="job-company">Department of National Defence (DND) <span class="job-loc">· Ottawa, ON</span></div>
+          <span class="job-type type-gov">Government · Defence</span>
+          <div class="job-tags"><span class="tag">Kratos Compass</span><span class="tag">C</span><span class="tag">Lua</span><span class="tag">BeanShell</span><span class="tag">Bash</span><span class="tag">SNMP</span><span class="tag">Modbus</span><span class="tag">TCP</span></div>
+          <ul><li>Shipped new monitor-and-control features on Kratos Compass — the operational backbone for SATCOM equipment and ground stations, used by the people on console.</li><li>Wrote C device drivers, with Lua and BeanShell alongside them, so power distribution, SATCOM gear, and ground-station hardware report status and take control from one system.</li><li>Integrated devices over SNMP, Modbus, TCP, UDP, and HTTP, and normalized alarms, telemetry, and commands into a single operator view.</li><li>Automated SATCOM operator workflows in Bash and in-platform scripts so health checks, setup, and recovery follow the same procedure on every shift.</li><li>Ran the management system on VMware ESXi and used iDRAC for out-of-band access, keeping a path to the hosts when the guest operating system is not the way in.</li><li>Applied operational best practices across the management network — segmentation, controlled access, consistent naming, and change discipline fit for a defence environment.</li><li>Turned console procedures into software so SATCOM operators supervise the network instead of hand-driving every device.</li></ul>
+        </div><hr class="divider"/>
+        <div class="job">
+          <div class="job-header">
             <div class="job-title">Mobile Software Developer (Contract)</div>
-            <div class="job-period">Feb 2026 – Present</div>
+            <div class="job-period">February 2026 – August 2026</div>
           </div>
           <div class="job-company">WebMarketers × Picis</div>
           <span class="job-type type-contract">Contract · Healthcare</span>
@@ -255,7 +265,7 @@
         
           <div class="skill-group">
             <div class="skill-group-name">Programming</div>
-            <div class="skill-tags"><span class="skill-tag">TypeScript</span><span class="skill-tag">JavaScript</span><span class="skill-tag">Java</span><span class="skill-tag">Kotlin</span><span class="skill-tag">Python</span><span class="skill-tag">Swift</span><span class="skill-tag">Obj-C</span><span class="skill-tag">C</span></div>
+            <div class="skill-tags"><span class="skill-tag">C</span><span class="skill-tag">Lua</span><span class="skill-tag">Bash</span><span class="skill-tag">TypeScript</span><span class="skill-tag">Java</span><span class="skill-tag">Kotlin</span><span class="skill-tag">Python</span><span class="skill-tag">Swift</span></div>
           </div>
           <div class="skill-group">
             <div class="skill-group-name">Mobile</div>
@@ -266,8 +276,8 @@
             <div class="skill-tags"><span class="skill-tag">React</span><span class="skill-tag">Angular</span><span class="skill-tag">Node.js</span><span class="skill-tag">Spring Boot</span><span class="skill-tag">GraphQL</span><span class="skill-tag">Express</span></div>
           </div>
           <div class="skill-group">
-            <div class="skill-group-name">Cloud &amp; Databases</div>
-            <div class="skill-tags"><span class="skill-tag">AWS Lambda</span><span class="skill-tag">AWS CDK</span><span class="skill-tag">AppSync</span><span class="skill-tag">DynamoDB</span><span class="skill-tag">SQS/SNS</span><span class="skill-tag">Kinesis</span><span class="skill-tag">MySQL</span></div>
+            <div class="skill-group-name">Cloud &amp; Systems</div>
+            <div class="skill-tags"><span class="skill-tag">Kratos Compass</span><span class="skill-tag">SNMP</span><span class="skill-tag">VMware ESXi</span><span class="skill-tag">AWS Lambda</span><span class="skill-tag">AWS CDK</span><span class="skill-tag">DynamoDB</span></div>
           </div>
       </div>
 

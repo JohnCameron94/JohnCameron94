@@ -149,7 +149,7 @@ function parseExperience(filepath) {
         twoCol[1]
           .split(/[,/]/)
           .map(s => s.replace(/\*\*/g, '').replace(/\([^)]+\)/g, '').trim())
-          .filter(s => s && s.length > 1 && !isTableSeparator(s))
+          .filter(s => s && s.length >= 1 && !isTableSeparator(s))
           .forEach(v => { if (!techTags.includes(v)) techTags.push(v); });
         continue;
       }
@@ -274,6 +274,7 @@ const TYPE_BADGE = {
   WEBMARKETERS: { label: 'Contract · Healthcare', cls: 'type-contract' },
   RODEOREADY:   { label: 'Startup',               cls: 'type-startup'  },
   CBSA:         { label: 'Government',            cls: 'type-gov'      },
+  DND:          { label: 'Government · Defence',  cls: 'type-gov'      },
   FREELANCE:    { label: 'Consulting',            cls: 'type-contract' },
 };
 
@@ -333,10 +334,10 @@ function buildHTML({ jobs, readme, contact = null }) {
 
   // Skills (4 groups to save space)
   const SKILLS = [
-    { group: 'Programming',        tags: ['TypeScript', 'JavaScript', 'Java', 'Kotlin', 'Python', 'Swift', 'Obj-C', 'C'] },
+    { group: 'Programming',        tags: ['C', 'Lua', 'Bash', 'TypeScript', 'Java', 'Kotlin', 'Python', 'Swift'] },
     { group: 'Mobile',             tags: ['Ionic + Angular', 'Capacitor', 'Jetpack Compose', 'CoreData/Room', 'APNS/FCM'] },
     { group: 'Frontend / Backend', tags: ['React', 'Angular', 'Node.js', 'Spring Boot', 'GraphQL', 'Express'] },
-    { group: 'Cloud & Databases',  tags: ['AWS Lambda', 'AWS CDK', 'AppSync', 'DynamoDB', 'SQS/SNS', 'Kinesis', 'MySQL'] },
+    { group: 'Cloud & Systems',    tags: ['Kratos Compass', 'SNMP', 'VMware ESXi', 'AWS Lambda', 'AWS CDK', 'DynamoDB'] },
   ];
 
   const skillsHTML = SKILLS.map(s => `
@@ -402,7 +403,7 @@ function buildHTML({ jobs, readme, contact = null }) {
     .header {
       background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
       color: #fff;
-      padding: 14px 32px 12px;
+      padding: 11px 32px 9px;
       position: relative;
       overflow: hidden;
       flex-shrink: 0;
@@ -425,16 +426,16 @@ function buildHTML({ jobs, readme, contact = null }) {
 
     /* Body layout */
     .body    { display: grid; grid-template-columns: 1fr 200px; align-items: start; flex: 1; min-height: 0; }
-    .main    { padding: 14px 22px 12px 32px; border-right: 1px solid var(--border); }
-    .sidebar { padding: 14px 16px 12px 14px; background: #f8fafc; align-self: stretch; }
+    .main    { padding: 10px 18px 8px 28px; border-right: 1px solid var(--border); }
+    .sidebar { padding: 10px 14px 8px 12px; background: #f8fafc; align-self: stretch; }
 
     /* Sections */
-    .section { margin-bottom: 10px; }
+    .section { margin-bottom: 7px; }
     .section-title {
       font-size: 8.5px; font-weight: 800; letter-spacing: 1.5px;
       text-transform: uppercase; color: var(--accent);
       border-bottom: 1.5px solid var(--border);
-      padding-bottom: 3px; margin-bottom: 9px;
+      padding-bottom: 2px; margin-bottom: 6px;
     }
 
     /* Summary */
@@ -444,7 +445,7 @@ function buildHTML({ jobs, readme, contact = null }) {
     }
 
     /* Jobs */
-    .job { margin-bottom: 8px; }
+    .job { margin-bottom: 4px; }
     .job:last-child { margin-bottom: 0; }
     .job-header    { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1px; }
     .job-title     { font-size: 11px; font-weight: 700; color: var(--dark); }
@@ -458,9 +459,9 @@ function buildHTML({ jobs, readme, contact = null }) {
     .job-tags      { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 5px; }
     .tag           { background: var(--tag-bg); color: var(--tag-fg); border-radius: 3px; padding: 1px 5px; font-size: 8.5px; font-weight: 600; }
     .job ul        { list-style: none; padding: 0; }
-    .job ul li     { font-size: 9.5px; color: var(--mid); padding-left: 11px; position: relative; margin-bottom: 1px; line-height: 1.4; }
+    .job ul li     { font-size: 9px; color: var(--mid); padding-left: 11px; position: relative; margin-bottom: 0; line-height: 1.35; }
     .job ul li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 8px; top: 1px; }
-    .divider       { border: none; border-top: 1px dashed var(--border); margin: 7px 0; }
+    .divider       { border: none; border-top: 1px dashed var(--border); margin: 4px 0; }
 
     /* Sidebar */
     .sidebar .section-title { font-size: 7.5px; }
@@ -528,7 +529,7 @@ function buildHTML({ jobs, readme, contact = null }) {
         <span class="htag">🌐 Bilingual — English &amp; French</span>
         <span class="htag">🏛️ Gov't Cleared</span>
         <span class="htag">🍁 Ottawa, ON</span>
-        <span class="htag">5+ Years Experience</span>
+        <span class="htag">8+ Years Experience</span>
       </div>
       <div class="links">
         <span>🔗 linkedin.com/in/johnathoncameron</span>
@@ -608,7 +609,8 @@ ${bullets}
 
   // Skills - grouped plainly
   const SKILLS = [
-    { group: 'Programming Languages', tags: ['TypeScript', 'JavaScript', 'Java', 'Kotlin', 'Python', 'Swift', 'Objective-C', 'C'] },
+    { group: 'Programming Languages', tags: ['C', 'Lua', 'BeanShell', 'Bash', 'TypeScript', 'JavaScript', 'Java', 'Kotlin', 'Python', 'Swift', 'Objective-C'] },
+    { group: 'Systems & Networks', tags: ['Kratos Compass', 'SNMP', 'Modbus', 'TCP', 'UDP', 'HTTP', 'VMware ESXi', 'iDRAC'] },
     { group: 'Mobile Development', tags: ['Ionic + Angular', 'Capacitor', 'Jetpack Compose', 'CoreData', 'Room', 'APNS', 'FCM'] },
     { group: 'Frontend & Backend', tags: ['React', 'Angular', 'Node.js', 'Spring Boot', 'GraphQL', 'Express', 'Flask'] },
     { group: 'Cloud & Infrastructure', tags: ['AWS Lambda', 'AWS CDK', 'AppSync', 'DynamoDB', 'SQS', 'SNS', 'Kinesis', 'Jenkins'] },
@@ -897,7 +899,7 @@ async function main() {
     .filter(f => /^EXPERIENCE_.+\.md$/i.test(f))
     .sort();
 
-  const ORDER = ['EXPERIENCE_WEBMARKETERS.md', 'EXPERIENCE_RODEOREADY.md', 'EXPERIENCE_CBSA.md'];
+  const ORDER = ['EXPERIENCE_DND.md', 'EXPERIENCE_WEBMARKETERS.md', 'EXPERIENCE_RODEOREADY.md', 'EXPERIENCE_CBSA.md'];
   const sorted = [
     ...ORDER.filter(f => expFiles.includes(f)),
     ...expFiles.filter(f => !ORDER.includes(f)),
