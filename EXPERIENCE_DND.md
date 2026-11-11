@@ -8,7 +8,11 @@
 
 [![Kratos Compass](https://img.shields.io/badge/Kratos_Compass-M%26C_Backbone-1B3A4B?style=for-the-badge&logoColor=white)](https://www.kratosdefense.com/)
 [![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)](https://en.wikipedia.org/wiki/C_(programming_language))
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Lua](https://img.shields.io/badge/Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white)](https://www.lua.org/)
+[![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)](https://mariadb.org/)
+[![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://ubuntu.com/)
+[![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white)](https://learn.microsoft.com/powershell/)
 [![VMware](https://img.shields.io/badge/VMware_ESXi-607078?style=for-the-badge&logo=vmware&logoColor=white)](https://www.vmware.com/)
 [![SNMP](https://img.shields.io/badge/SNMP_%C2%B7_Modbus_%C2%B7_TCP_%C2%B7_UDP_%C2%B7_HTTP-0F766E?style=for-the-badge)](https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol)
 
@@ -63,17 +67,22 @@ On the other side of those protocols: **power distribution units**, **SATCOM equ
 | Category | Technologies |
 |----------|-------------|
 | **M&C Platform** | Kratos Compass |
-| **Languages** | C, Lua, BeanShell, Bash |
-| **Protocols** | SNMP, Modbus, TCP, UDP, HTTP |
+| **Languages** | C, Python, Lua, Bash, PowerShell |
+| **Database** | MariaDB |
+| **Operating system** | Ubuntu Linux |
+| **Platform scripting** | BeanShell |
 | **Infrastructure** | VMware ESXi, iDRAC, management networking |
+| **Protocols** | SNMP, Modbus, TCP, UDP, HTTP |
 | **Domain** | SATCOM, ground stations, monitor & control |
 
 ### What each language is doing here
 
 - **C** is for device drivers. This is the close-to-the-metal work: talk to the equipment correctly, handle timeouts and partial reads, and hand Compass a stable status and control surface instead of a raw protocol trace.
+- **Python** is for the tooling around that core. Pulls from MariaDB, transforms on the way into a feature or a report, and automation that is easier to test and hand to the next person than a one-off pipeline.
 - **Lua** is for driver and device logic that should stay close to the equipment and easy to revise when a firmware rev changes a register or a response.
 - **BeanShell** is for the Java-side scripting inside the M&C platform — glue, feature logic, and automation that belongs in the Compass runtime rather than in a one-off shell on a server.
-- **Bash** is for the operating system around the platform: host setup, repeatable maintenance, log and health collection, and the scripts that keep a deployment from depending on someone remembering the right flags at 2 a.m.
+- **Bash** is for Ubuntu itself: host setup, packages, permissions, log and health collection, and the scripts that keep a deployment from depending on someone remembering the right flags at 2 a.m.
+- **PowerShell** covers the same kind of procedure when the box or the operator workstation is not a Bash host. Setup, queries, and repeatable checks, in the shell that side of the ground segment already uses.
 
 ---
 
@@ -81,7 +90,9 @@ On the other side of those protocols: **power distribution units**, **SATCOM equ
 
 The M&C system only helps operators if the system itself stays up, and if someone can still reach it when it does not.
 
-- **VMware ESXi** hosts the management system. Virtualizing Compass and its supporting services keeps the operational software movable, recoverable, and separate from the quirks of a single bare-metal box.
+- **Ubuntu Linux** is the operating system on the management hosts. Services, packages, file permissions, and the Bash half of the automation all assume that environment.
+- **MariaDB** holds the operational data the platform and the tools actually query — configuration, history, and the rows a feature or a script should read instead of scraping a screen.
+- **VMware ESXi** hosts those Ubuntu machines. Virtualizing Compass, MariaDB, and the supporting services keeps the operational software movable, recoverable, and separate from the quirks of a single bare-metal box.
 - **iDRAC** is the out-of-band path to the servers. When a guest operating system is wedged, or a host needs a look before the management network is happy, the lights-out controller is how you still have a console.
 - **Networking** is the difference between a lab integration and a ground station. Management traffic, device traffic, and the paths operators depend on are treated as designed networks: named, documented, segmented, and changed on purpose.
 
@@ -95,19 +106,19 @@ SATCOM operations are full of work that is important, repetitive, and easy to do
 
 I automate those workflows so the platform carries them.
 
-A good operator script is boring on purpose. It checks the same points, in the same order, and stops with a clear reason when the chain is not ready. It does not invent a heroic recovery the crew did not ask for. The win is a shift that spends its judgment on the contact — weather, the link, the anomaly that is actually new — because the routine path already lives in Compass and in the host scripts around it.
+A good operator script is boring on purpose. It checks the same points, in the same order, and stops with a clear reason when the chain is not ready. Python, Bash, and PowerShell are just different doors into that same habit: one for tooling and data, one for the Ubuntu host, one for the workstation that is not Linux. None of them invent a heroic recovery the crew did not ask for. The win is a shift that spends its judgment on the contact — weather, the link, the anomaly that is actually new — because the routine path already lives in Compass, in MariaDB, and in the host scripts around them.
 
 ---
 
 ## 💡 Key Contributions
 
-- **Shipped new monitor-and-control features on Kratos Compass** — the operational backbone for SATCOM equipment and ground stations, used by the people on console.
-- **Wrote C device drivers, with Lua and BeanShell alongside them,** so power distribution, SATCOM gear, and ground-station hardware report status and take control from one system.
-- **Integrated devices over SNMP, Modbus, TCP, UDP, and HTTP,** and normalized alarms, telemetry, and commands into a single operator view.
-- **Automated SATCOM operator workflows in Bash and in-platform scripts** so health checks, setup, and recovery follow the same procedure on every shift.
-- **Ran the management system on VMware ESXi and used iDRAC for out-of-band access,** keeping a path to the hosts when the guest operating system is not the way in.
-- **Applied operational best practices across the management network** — segmentation, controlled access, consistent naming, and change discipline fit for a defence environment.
-- **Turned console procedures into software** so SATCOM operators supervise the network instead of hand-driving every device.
+- **Shipped new Compass monitor-and-control features** for SATCOM gear, ground stations, and the crew on console.
+- **Wrote C drivers plus Lua and BeanShell** so power, SATCOM, and ground-station hardware share one control path.
+- **Integrated devices over SNMP, Modbus, TCP, UDP, and HTTP** into a single alarm, telemetry, and command view.
+- **Automated SATCOM workflows in Python, Bash, and PowerShell** on Ubuntu so every shift runs the same checks.
+- **Kept Compass data in MariaDB** on Ubuntu Linux, hosted on VMware ESXi with iDRAC out of band.
+- **Ran the management network with defence discipline** — segmented paths, controlled access, consistent names, and deliberate change.
+- **Turned console procedures into software** so operators supervise the network instead of hand-driving every device.
 
 ---
 
@@ -115,7 +126,7 @@ A good operator script is boring on purpose. It checks the same points, in the s
 
 Border systems taught me how to ship software the government actually runs. Clinical mobile work taught me how to respect a user who does not have time for a clumsy screen. This role puts both habits on a live ground segment.
 
-The user is an operator with a contact window. The interface is an alarm list and a control action. The integration is only real once a power bar, a modem, and a ground-station device all tell the truth in the same place. I get to build that — drivers in C, logic in Lua and BeanShell, host automation in Bash — on the platform the crew already trusts.
+The user is an operator with a contact window. The interface is an alarm list and a control action. The integration is only real once a power bar, a modem, and a ground-station device all tell the truth in the same place, and MariaDB still has the history to prove it. I get to build that — drivers in C, logic in Lua and BeanShell, Python and PowerShell around them, Bash on Ubuntu — on the platform the crew already trusts.
 
 ---
 

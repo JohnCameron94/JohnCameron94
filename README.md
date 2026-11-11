@@ -71,6 +71,7 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 ![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)
 ![Lua](https://img.shields.io/badge/Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white)
 ![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white)
+![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 
@@ -94,11 +95,14 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 ![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white)
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
 ![VMware](https://img.shields.io/badge/VMware_ESXi-607078?style=for-the-badge&logo=vmware&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
 
 ### 🗄️ Databases
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
+![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)
 ![DynamoDB](https://img.shields.io/badge/DynamoDB-4053D6?style=for-the-badge&logo=amazon-dynamodb&logoColor=white)
 ![Amazon RDS](https://img.shields.io/badge/Amazon_RDS-527FFF?style=for-the-badge&logo=amazon-rds&logoColor=white)
 
@@ -218,8 +222,9 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 ### 📡 SATCOM Monitor & Control
 - Kratos Compass M&C features
 - SNMP, Modbus, TCP/UDP, and HTTP device integration
-- C device drivers, Lua, and BeanShell
-- Operator workflow automation in Bash
+- C device drivers, Python, Lua, and BeanShell
+- Operator automation in Bash and PowerShell
+- MariaDB on Ubuntu Linux
 - VMware ESXi, iDRAC, and management networking
 
 </td>
@@ -238,7 +243,7 @@ I don't just write code. I architect solutions, mentor teammates, automate workf
 ### 🛠️ Systems Practice
 - Segmented management networks
 - iDRAC out-of-band server access
-- VMware ESXi for the management hosts
+- Ubuntu Linux on VMware ESXi for the management hosts
 - Drivers that fail visibly instead of silently
 - Procedures an operator can run without an engineer beside them
 

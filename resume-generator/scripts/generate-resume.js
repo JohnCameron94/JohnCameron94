@@ -334,10 +334,10 @@ function buildHTML({ jobs, readme, contact = null }) {
 
   // Skills (4 groups to save space)
   const SKILLS = [
-    { group: 'Programming',        tags: ['C', 'Lua', 'Bash', 'TypeScript', 'Java', 'Kotlin', 'Python', 'Swift'] },
+    { group: 'Programming',        tags: ['C', 'Python', 'Lua', 'Bash', 'PowerShell', 'TypeScript', 'Java', 'Kotlin'] },
     { group: 'Mobile',             tags: ['Ionic + Angular', 'Capacitor', 'Jetpack Compose', 'CoreData/Room', 'APNS/FCM'] },
     { group: 'Frontend / Backend', tags: ['React', 'Angular', 'Node.js', 'Spring Boot', 'GraphQL', 'Express'] },
-    { group: 'Cloud & Systems',    tags: ['Kratos Compass', 'SNMP', 'VMware ESXi', 'AWS Lambda', 'AWS CDK', 'DynamoDB'] },
+    { group: 'Cloud & Systems',    tags: ['Kratos Compass', 'MariaDB', 'Ubuntu', 'SNMP', 'VMware ESXi', 'AWS Lambda'] },
   ];
 
   const skillsHTML = SKILLS.map(s => `
@@ -461,7 +461,7 @@ function buildHTML({ jobs, readme, contact = null }) {
     .job ul        { list-style: none; padding: 0; }
     .job ul li     { font-size: 9px; color: var(--mid); padding-left: 11px; position: relative; margin-bottom: 0; line-height: 1.35; }
     .job ul li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 8px; top: 1px; }
-    .divider       { border: none; border-top: 1px dashed var(--border); margin: 4px 0; }
+    .divider       { border: none; border-top: 1px dashed var(--border); margin: 2px 0; }
 
     /* Sidebar */
     .sidebar .section-title { font-size: 7.5px; }
@@ -609,12 +609,12 @@ ${bullets}
 
   // Skills - grouped plainly
   const SKILLS = [
-    { group: 'Programming Languages', tags: ['C', 'Lua', 'BeanShell', 'Bash', 'TypeScript', 'JavaScript', 'Java', 'Kotlin', 'Python', 'Swift', 'Objective-C'] },
-    { group: 'Systems & Networks', tags: ['Kratos Compass', 'SNMP', 'Modbus', 'TCP', 'UDP', 'HTTP', 'VMware ESXi', 'iDRAC'] },
+    { group: 'Programming Languages', tags: ['C', 'Python', 'Lua', 'BeanShell', 'Bash', 'PowerShell', 'TypeScript', 'JavaScript', 'Java', 'Kotlin', 'Swift', 'Objective-C'] },
+    { group: 'Systems & Networks', tags: ['Kratos Compass', 'MariaDB', 'Ubuntu Linux', 'SNMP', 'Modbus', 'TCP', 'UDP', 'HTTP', 'VMware ESXi', 'iDRAC'] },
     { group: 'Mobile Development', tags: ['Ionic + Angular', 'Capacitor', 'Jetpack Compose', 'CoreData', 'Room', 'APNS', 'FCM'] },
     { group: 'Frontend & Backend', tags: ['React', 'Angular', 'Node.js', 'Spring Boot', 'GraphQL', 'Express', 'Flask'] },
     { group: 'Cloud & Infrastructure', tags: ['AWS Lambda', 'AWS CDK', 'AppSync', 'DynamoDB', 'SQS', 'SNS', 'Kinesis', 'Jenkins'] },
-    { group: 'Databases', tags: ['MySQL', 'PostgreSQL', 'MongoDB', 'DynamoDB', 'Amazon RDS'] },
+    { group: 'Databases', tags: ['MariaDB', 'MySQL', 'PostgreSQL', 'MongoDB', 'DynamoDB', 'Amazon RDS'] },
   ];
 
   const skillsHTML = SPOKEN_LANGUAGES.length
